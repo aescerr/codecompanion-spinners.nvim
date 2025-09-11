@@ -366,8 +366,6 @@ This extension is built for and inspired by the excellent [`codecompanion.nvim`]
 - 💬 [CodeCompanion Discussions](https://github.com/olimorris/codecompanion.nvim/discussions) - Community discussions about UI enhancements and spinner ideas
 - 🤖 [opencode.ai](https://opencode.ai) - AI-powered coding assistant used in development
 
----
-
 <div align="center">
 
 ---
