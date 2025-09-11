@@ -368,6 +368,12 @@ This extension is built for and inspired by the excellent [`codecompanion.nvim`]
 
 ---
 
-## 💝 Made with Love
+<div align="center">
 
-This project was crafted with ❤️ using [opencode.ai](https://opencode.ai) - AI-powered coding assistant that makes development more efficient and enjoyable.
+---
+
+💝 **Made with Love using [opencode.ai](https://opencode.ai)**
+
+---
+
+</div>
