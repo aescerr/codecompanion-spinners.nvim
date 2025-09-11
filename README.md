@@ -324,11 +324,11 @@ opts = {
 
 ## 🙏 Acknowledgements
 
-This extension is built for and inspired by the excellent [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) plugin by Oliver Morris.
+This extension is built for and inspired by the excellent [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) plugin by Oliver Morris. While we drew inspiration from the spinner concepts discussed in the CodeCompanion community and documented in their UI section, this implementation is our own original work with custom features and enhancements.
 
 ### 📚 Resources
-- [CodeCompanion UI Documentation](https://codecompanion.olimorris.dev/usage/ui.html) - Learn more about CodeCompanion's UI features
-- [CodeCompanion Discussions](https://github.com/olimorris/codecompanion.nvim/discussions) - Community discussions and support
+- [CodeCompanion UI Documentation](https://codecompanion.olimorris.dev/usage/ui.html) - Learn more about CodeCompanion's UI features and spinner concepts
+- [CodeCompanion Discussions](https://github.com/olimorris/codecompanion.nvim/discussions) - Community discussions about UI enhancements and spinner ideas
 
 ### 🤝 Contributing
 We welcome contributions! Please see the main repository for contribution guidelines and feel free to open issues or discussions for this extension.
