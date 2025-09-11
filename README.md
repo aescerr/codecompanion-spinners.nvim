@@ -324,11 +324,11 @@ opts = {
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) file for detailed guidelines on how to contribute to this project. Feel free to open issues or discussions for this extension.
+We welcome contributions! Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) file for detailed guidelines on how to contribute to this project. Feel free to open issues or discussions for this extension.
 
 ## 📹 Project Sharing
 
-This project was developed and shared publicly to help other Neovim users enhance their CodeCompanion experience with beautiful, customizable spinners. The code is freely available for anyone to use, modify, and contribute to.
+This project was developed using [opencode.ai](https://opencode.ai) and shared publicly to help other Neovim users enhance their CodeCompanion experience with beautiful, customizable spinners. The code is freely available for anyone to use, modify, and contribute to.
 
 ## 🙏 Acknowledgements
 
@@ -337,3 +337,4 @@ This extension is built for and inspired by the excellent [`codecompanion.nvim`]
 ### 📚 Resources
 - [CodeCompanion UI Documentation](https://codecompanion.olimorris.dev/usage/ui.html) - Learn more about CodeCompanion's UI features and spinner concepts
 - [CodeCompanion Discussions](https://github.com/olimorris/codecompanion.nvim/discussions) - Community discussions about UI enhancements and spinner ideas
+- [opencode.ai](https://opencode.ai) - AI-powered coding assistant used in development
