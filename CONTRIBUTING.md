@@ -184,12 +184,6 @@ docs: Update README with native spinner configuration examples
 
 ## 🎯 Development Workflow
 
-### ⚠️ Critical Safety Rule
-- **NEVER commit and push changes without explicit user approval**
-- Always ask for permission before running `git commit` or `git push`
-- This prevents accidental commits that could affect the repository
-- Respect user control over when and what gets published
-
 ### Branch Strategy
 - `master` - Main branch, always stable
 - `feature/*` - New features
