@@ -2,6 +2,10 @@
 
 A companion extension for [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) that provides beautiful, configurable status spinners and notifications to give you real-time feedback on the AI's activity.
 
+## 📹 Demo
+
+<video src="https://github.com/user-attachments/assets/f1db9995-c575-4db3-ac01-cad0da6abb7f" controls></video>
+
 ## ✨ Features
 
 - **Multiple Spinner Styles:** Choose from several built-in spinner styles to suit your workflow.
@@ -145,6 +149,10 @@ You can choose one of the following styles by setting the `style` option:
 
 A minimal, animated spinner that floats in a small window next to your cursor. It provides unobtrusive feedback without getting in your way.
 
+**Demo:**
+
+<video src="https://github.com/user-attachments/assets/b023c5d9-daae-4da1-a4f6-2020e984369a" controls></video>
+
 **Visuals:**
 - **Active:** A smooth highlight animation across the spinner characters (e.g., `` with moving highlights).
 - **Finished:** The spinner is replaced by a checkmark and a "Done!" message, which persists for a short duration before fading away.
@@ -184,6 +192,10 @@ This style leverages the excellent [fidget.nvim](https://github.com/j-hui/fidget
 
 **Prerequisites:** You must have `j-hui/fidget.nvim` installed.
 
+**Demo:**
+
+<video src="https://github.com/user-attachments/assets/0f0ee5e5-d74b-4c5d-bea9-22d537decb52" controls></video>
+
 **Visuals:**
 - A "CodeCompanion" task will appear in your fidget window, showing the current status (e.g., "Thinking...").
 - When complete, the task is marked as finished.
@@ -205,6 +217,10 @@ opts = {
 This style uses [snacks.nvim](https://github.com/folke/snacks.nvim) (or the built-in `vim.notify` as a fallback) to show rich, animated notifications. It provides the most detailed feedback of all the spinners.
 
 **Prerequisites:** For the best experience, you should have `folke/snacks.nvim` installed.
+
+**Demo:**
+
+<video src="https://github.com/user-attachments/assets/f1db9995-c575-4db3-ac01-cad0da6abb7f" controls></video>
 
 **Visuals:**
 - A notification popup appears with an icon and status message in the format `<icon> <message>` (e.g., "⚛ Thinking...").
@@ -229,6 +245,10 @@ opts = {
 This style creates a highly configurable floating window using Neovim's native `nvim_open_win` function. It provides maximum control over the window's appearance and behavior without requiring any external dependencies.
 
 **Prerequisites:** None - uses only built-in Neovim features.
+
+**Demo:**
+
+<video src="https://github.com/user-attachments/assets/659f9f88-e385-487f-b0fe-49f97fb1b997" controls></video>
 
 **Visuals:**
 - A floating window appears with your configured title, size, position, and border style.
@@ -328,11 +348,11 @@ We welcome contributions! Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) fi
 
 ## 📹 Project Sharing
 
-This project was developed using [opencode.ai](https://opencode.ai) and shared publicly to help other Neovim users enhance their CodeCompanion experience with beautiful, customizable spinners. The code is freely available for anyone to use, modify, and contribute to.
+This project was developed using [opencode.ai](https://opencode.ai) and made publicly available to help other Neovim users enhance their CodeCompanion experience with beautiful, customizable spinners. The code is freely available for anyone to use, modify, and contribute to.
 
 ## 🙏 Acknowledgements
 
-This extension is built for and inspired by the excellent [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) plugin by Oliver Morris. While we drew inspiration from the spinner concepts discussed in the CodeCompanion community and documented in their UI section, this implementation is our own original work with custom features and enhancements.
+This extension is built for and inspired by the excellent [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) plugin by Oliver Morris. While we drew inspirations from the spinners discussed in the CodeCompanion community and documented in their UI section, this implementation is our own original work with custom features and enhancements.
 
 ### 📚 Resources
 - [CodeCompanion UI Documentation](https://codecompanion.olimorris.dev/usage/ui.html) - Learn more about CodeCompanion's UI features and spinner concepts
