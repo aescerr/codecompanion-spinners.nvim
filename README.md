@@ -128,9 +128,18 @@ Here is the complete default configuration. You only need to specify the values 
 
 ---
 
-##  spinners Available
+## 🎨 Available Spinners
 
-You can choose one of the following styles by setting the `style` option.
+You can choose one of the following styles by setting the `style` option:
+
+### Quick Overview
+- **`cursor-relative`** (Default) - Floating window spinner near cursor
+- **`fidget`** - Progress notifications via fidget.nvim
+- **`snacks`** - Rich notifications via snacks.nvim or vim.notify
+- **`native`** - Highly configurable floating window
+- **`none`** - Disable all spinners
+
+### Detailed Descriptions
 
 ### `cursor-relative` (Default)
 
