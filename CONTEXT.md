@@ -251,6 +251,13 @@ codecompanion-spinners.nvim/
 - **Spacing Configuration:** Spacing between icon and message is configured per content state, allowing granular control over visual appearance
 
 ### Development Workflow
+
+#### ⚠️ Critical Safety Rule
+- **NEVER commit and push changes without explicit user approval**
+- Always ask for permission before running `git commit` or `git push`
+- This prevents accidental commits that could affect the repository
+- Respect user control over when and what gets published
+
 - **CONTEXT.md Updates:** Always update CONTEXT.md with significant changes, new features, bug fixes, and design decisions for future reference
 - **Documentation Priority:** Update both README.md and CONTEXT.md when making user-facing changes
 - **Change Tracking:** Document what was changed, why it was changed, and how it affects users
