@@ -1,0 +1,226 @@
+*codecompanion-spinner.txt* For Neovim version 0.8.0 and higher.
+
+==============================================================================
+CODECOMPANION-SPINNER.NVIM                             *codecompanion-spinner*
+
+A companion extension for `codecompanion.nvim` that provides beautiful,
+configurable status spinners and notifications to give you real-time feedback
+on the AI's activity.
+
+==============================================================================
+CONTENTS                                                      *codecompanion-spinners-contents*
+
+1. Introduction ........................ |codecompanion-spinners-intro|
+2. Installation ........................ |codecompanion-spinners-install|
+3. Configuration ....................... |codecompanion-spinners-config|
+4. Spinner Styles ...................... |codecompanion-spinners-styles|
+5. API .................................. |codecompanion-spinners-api|
+
+==============================================================================
+INTRODUCTION                                               *codecompanion-spinners-intro*
+
+CodeCompanion Spinners provides visual feedback for CodeCompanion AI
+operations through various spinner styles and notification systems.
+
+Features:
+- Multiple spinner styles (cursor-relative, fidget, snacks, lualine, native, none)
+- Highly configurable icons and messages
+- State-aware notifications
+- Extensible architecture
+
+==============================================================================
+INSTALLATION                                             *codecompanion-spinners-install*
+
+Install with your favorite plugin manager. This plugin is a codecompanion.nvim
+extension and should be configured within its extensions table.
+
+Example with lazy.nvim: >
+
+    {
+      "olimorris/codecompanion.nvim",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope.nvim",
+        "lalitmee/codecompanion-spinners.nvim",
+        -- Optional dependencies:
+        -- "j-hui/fidget.nvim",
+        -- "folke/snacks.nvim",
+        -- "nvim-lualine/lualine.nvim",
+      },
+       opts = {
+         extensions = {
+           spinner = {
+             opts = {
+               style = "cursor-relative",
+             },
+          },
+        },
+      },
+    }
+<
+
+==============================================================================
+CONFIGURATION                                           *codecompanion-spinners-config*
+
+You can configure the extension by passing a table to the `opts` key under
+`extensions.spinners`.
+
+Default Configuration: >
+
+    {
+      style = "cursor_relative",
+
+      content = {
+        -- General states
+        thinking = { icon = "⚛", message = "Thinking..." },
+        receiving = { icon = "", message = "Receiving..." },
+        done = { icon = "", message = "Done!" },
+        stopped = { icon = "", message = "Stopped" },
+        cleared = { icon = "", message = "Chat cleared" },
+
+        -- Tool-related states
+        tools_started = { icon = "", message = "Running tools..." },
+        tools_finished = { icon = "⤷", message = "Processing tool output..." },
+
+        -- Diff-related states
+        diff_attached = { icon = "", message = "Review changes" },
+        diff_accepted = { icon = "", message = "Change accepted" },
+        diff_rejected = { icon = "", message = "Change rejected" },
+
+        -- Chat-related states
+        chat_ready = { icon = "", message = "Chat ready" },
+        chat_opened = { icon = "", message = "Chat opened" },
+        chat_hidden = { icon = "", message = "Chat hidden" },
+        chat_closed = { icon = "", message = "Chat closed" },
+      },
+
+      cursor_relative = {
+        hl_group = "Title",
+        hl_dim_group = "NonText",
+        done_timer = 500,
+      },
+    }
+<
+
+==============================================================================
+SPINNER STYLES                                           *codecompanion-spinners-styles*
+
+cursor-relative                                           *codecompanion-spinners-cursor-relative*
+    A minimal, animated spinner that floats in a small window next to your
+    cursor. Uses smooth highlight animation across spinner characters.
+
+    Options: >
+        ["cursor-relative"] = {
+          text = "",             -- Spinner text characters
+          hl_positions = {           -- Highlight positions for animation
+            { 0, 3 }, -- First circle
+            { 3, 6 }, -- Second circle
+            { 6, 9 }, -- Third circle
+          },
+          interval = 100,            -- Animation interval in milliseconds
+          hl_group = "Title",         -- Active highlight group
+          hl_dim_group = "NonText",   -- Dimmed background highlight group
+        }
+<
+
+fidget                                                    *codecompanion-spinners-fidget*
+    Uses fidget.nvim to display progress in the corner of your screen.
+    Requires: j-hui/fidget.nvim
+
+snacks                                                    *codecompanion-spinners-snacks*
+    Uses snacks.nvim for rich, animated notifications. Falls back to
+    vim.notify if snacks is not available.
+    Requires: folke/snacks.nvim (optional)
+
+lualine                                                  *codecompanion-spinners-lualine*
+    Provides a component for lualine.nvim statusline.
+    Requires: nvim-lualine/lualine.nvim
+
+    Usage in lualine config: >
+        require('lualine').setup({
+          sections = {
+            lualine_c = {
+              require('codecompanion._extensions.spinner.styles.lualine').get_lualine_component(),
+            },
+          },
+        })
+<
+
+    Alternative manual configuration: >
+        require('lualine').setup({
+          sections = {
+            lualine_c = {
+              {
+                function()
+                  return require('codecompanion._extensions.spinner.styles.lualine').get_status()
+                end,
+                cond = function()
+                  return require('codecompanion._extensions.spinner.styles.lualine').get_status() ~= ""
+                end,
+              },
+            },
+          },
+        })
+<
+
+native                                                    *codecompanion-spinners-native*
+    Creates a highly configurable floating window using Neovim's native
+    nvim_open_win function. Provides maximum control over appearance and
+    behavior without external dependencies.
+    Requires: None (built-in Neovim features only)
+
+    Configuration: >
+        native = {
+          done_timer = 500,
+          window = {
+            relative = "editor",
+            width = 30,
+            height = 1,
+            row = vim.o.lines - 5,
+            col = vim.o.columns - 35,
+            style = "minimal",
+            border = "rounded",
+            title = "CodeCompanion",
+            title_pos = "center",
+            focusable = false,
+            noautocmd = true,
+          },
+          win_options = {
+            -- winblend = 10,
+          },
+        }
+<
+
+none                                                      *codecompanion-spinners-none*
+    Disables all spinners and notifications.
+
+==============================================================================
+API                                                         *codecompanion-spinners-api*
+
+Spinner Interface                                          *codecompanion-spinners-api-interface*
+
+All spinner implementations must provide these functions:
+
+setup()                                                   *codecompanion-spinners-setup*
+    Performs one-time setup for the spinner style. Called once during
+    extension initialization.
+
+render(new_state, event)                                 *codecompanion-spinners-render*
+    Main render function called when the state changes.
+    Parameters:
+        new_state: The new state from the tracker
+        event:     The raw event that triggered the state change
+
+Lualine Specific API                                       *codecompanion-spinners-lualine-api*
+
+get_status()                                             *codecompanion-spinners-get_status*
+    Returns the current status text for the lualine component.
+    Returns: string - The status text to display
+
+get_lualine_component()                                 *codecompanion-spinners-get_lualine_component*
+    Returns a complete lualine component configuration that can be directly
+    added to lualine sections.
+    Returns: table - The lualine component configuration table
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
