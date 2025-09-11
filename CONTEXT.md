@@ -50,8 +50,14 @@ The plugin listens to the following CodeCompanion events:
 - `CodeCompanionToolsFinished`
 - `CodeCompanionDiffAttached`
 - `CodeCompanionDiffDetached`
+- `CodeCompanionDiffAccepted`
+- `CodeCompanionDiffRejected`
 - `CodeCompanionChatDone`
 - `CodeCompanionChatStopped`
+- `CodeCompanionChatOpened`
+- `CodeCompanionChatClosed`
+- `CodeCompanionChatHidden`
+- `CodeCompanionChatCleared`
 
 ## Spinner Styles
 
@@ -135,6 +141,34 @@ require('codecompanion').setup({
 })
 ```
 
+### 4. lualine
+- **Type:** Statusline component
+- **Features:** Integrated status display that only shows when CodeCompanion chat panel is open, automatic updates
+- **Dependencies:** `nvim-lualine/lualine.nvim`
+- **Configuration:** Uses global `default_icon` for active states, shows nothing when chat is closed
+- **Usage:** Use `get_lualine_component()` for easy integration
+- **Note:** Currently marked as disabled in implementation - may require additional development
+- **Behavior:**
+  - Only displays content when the CodeCompanion chat panel is open and there's active AI activity
+  - Shows nothing (empty string) when chat is closed, hidden, or idle
+  - Tracks chat state using `CodeCompanionChatOpened`, `CodeCompanionChatClosed`, and `CodeCompanionChatHidden` events
+  - Displays in the statusline regardless of which buffer you're currently viewing
+
+**API Functions:**
+- `get_status()`: Returns the current status text string
+- `get_lualine_component()`: Returns a complete lualine component configuration
+
+**Example Usage:**
+```lua
+require('lualine').setup({
+  sections = {
+    lualine_c = {
+      require('codecompanion._extensions.spinner.styles.lualine').get_lualine_component(),
+    },
+  }
+})
+```
+
 ### 5. native
 - **Type:** Floating window (native)
 - **Features:** Highly configurable floating window with animated title and icon+message content
@@ -157,7 +191,7 @@ The plugin supports various states with customizable icons and messages:
 ```lua
 content = {
   -- General states
-  thinking = { icon = "⚛", message = "Thinking...", spacing = "  " },
+  thinking = { icon = "", message = "Thinking...", spacing = "  " },
   receiving = { icon = "", message = "Receiving...", spacing = "  " },
   done = { icon = "", message = "Done!", spacing = "  " },
   stopped = { icon = "", message = "Stopped", spacing = "  " },
@@ -224,10 +258,10 @@ codecompanion-spinners.nvim/
                 ├── config.lua         # Configuration management
                 ├── tracker.lua        # State tracking
                 └── styles/
-                    ├── native.lua
                     ├── cursor-relative.lua
                     ├── fidget.lua
                     ├── lualine.lua
+                    ├── native.lua
                     └── snacks.lua
 ```
 
@@ -325,13 +359,16 @@ docs: Update README with native spinner configuration examples
 11. **✅ State-Based Icons:** Implemented state-specific icon display - thinking state now uses default icon () instead of thinking icon (⚛)
 12. **✅ Snacks Icon Fix:** Fixed snacks spinner to show default icon instead of info icon when request ends
 13. **✅ Lualine Conditional Display:** Lualine spinner now only shows content when CodeCompanion chat panel is open, eliminating "nil" display when idle
+14. **✅ Demo Videos:** Added comprehensive demo videos for all spinner styles in README.md
+15. **✅ Event Handling:** Extended event handling to include chat state events (opened, closed, hidden, cleared)
+16. **✅ Context Documentation:** Updated CONTEXT.md to reflect current implementation and fix discrepancies
 
 ## Known Issues & TODOs
 
-1. **Documentation Completeness:** Lualine integration was implemented but not documented (now fixed)
-2. **Require Path Consistency:** Snacks.lua had incorrect require paths (now fixed)
-3. **Testing:** No automated tests currently exist
-4. **Performance:** No performance optimizations for high-frequency updates
+1. **Lualine Spinner Status:** Lualine spinner is currently marked as disabled in implementation and may require additional development
+2. **Testing:** No automated tests currently exist
+3. **Performance:** No performance optimizations for high-frequency updates
+4. **Documentation:** Some advanced configuration examples could be expanded
 
 ## Future Enhancements
 
