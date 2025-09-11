@@ -255,6 +255,54 @@ codecompanion-spinners.nvim/
 - **Documentation Priority:** Update both README.md and CONTEXT.md when making user-facing changes
 - **Change Tracking:** Document what was changed, why it was changed, and how it affects users
 
+### Git Commit Best Practices
+Follow these guidelines for all git commits to maintain a clean, readable commit history:
+
+#### Commit Message Format
+- **Subject Line:** Keep under 72 characters, use imperative mood, no period at end
+- **Body:** Optional, explain what and why (not how), wrap at 72 characters
+- **Format:** `Type: Brief description` or `Type(scope): Brief description`
+
+#### Commit Types
+- `feat:` - New feature or enhancement
+- `fix:` - Bug fix
+- `docs:` - Documentation changes
+- `style:` - Code style/formatting changes (no functional changes)
+- `refactor:` - Code refactoring (no functional changes)
+- `test:` - Adding/updating tests
+- `chore:` - Maintenance tasks, build changes, etc.
+
+#### Best Practices
+- **Atomic Commits:** Each commit should contain one logical change
+- **Clear Messages:** Write commit messages that explain the "why" and "what", not just "how"
+- **Present Tense:** Use present tense ("Add feature" not "Added feature")
+- **Imperative Mood:** Start with imperative verbs ("Fix bug" not "Fixed bug" or "Fixes bug")
+- **Reference Issues:** Include issue numbers when applicable (`Fix #123: Handle edge case`)
+- **Test Before Commit:** Ensure changes work and don't break existing functionality
+- **Update Documentation:** Update README.md and CONTEXT.md for user-facing changes
+
+#### Examples
+```
+feat: Add native spinner style with floating window support
+
+- Implement highly configurable floating window spinner
+- Add window position, size, and border customization
+- Support animated title with CodeCompanion branding
+- Include comprehensive configuration options
+
+fix: Resolve lualine spinner display issue
+
+- Remove buffer filetype check that prevented global display
+- Update component to show status regardless of current buffer
+- Add chat state tracking for conditional visibility
+
+docs: Update README with native spinner configuration examples
+
+- Add advanced configuration examples for window positioning
+- Include transparency and border styling options
+- Document all available window configuration parameters
+```
+
 ## Recent Improvements
 
 1. **✅ Native Spinner Enhancement:** Moved loading animation to window title with "CodeCompanion" branding, window content now shows icon + configurable spacing + message
