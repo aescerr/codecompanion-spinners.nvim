@@ -366,7 +366,8 @@ This extension is built for and inspired by the excellent [`codecompanion.nvim`]
 - 💬 [CodeCompanion Discussions](https://github.com/olimorris/codecompanion.nvim/discussions) - Community discussions about UI enhancements and spinner ideas
 - 🤖 [opencode.ai](https://opencode.ai) - AI-powered coding assistant used in development
 
-### 📚 Resources
-- [CodeCompanion UI Documentation](https://codecompanion.olimorris.dev/usage/ui.html) - Learn more about CodeCompanion's UI features and spinner concepts
-- [CodeCompanion Discussions](https://github.com/olimorris/codecompanion.nvim/discussions) - Community discussions about UI enhancements and spinner ideas
-- [opencode.ai](https://opencode.ai) - AI-powered coding assistant used in development
+---
+
+## 💝 Made with Love
+
+This project was crafted with ❤️ using [opencode.ai](https://opencode.ai) - AI-powered coding assistant that makes development more efficient and enjoyable.
