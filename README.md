@@ -1,6 +1,6 @@
 # CodeCompanion Spinner
 
-A companion extension for `codecompanion.nvim` that provides beautiful, configurable status spinners and notifications to give you real-time feedback on the AI's activity.
+A companion extension for [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) that provides beautiful, configurable status spinners and notifications to give you real-time feedback on the AI's activity.
 
 ## ✨ Features
 
@@ -11,9 +11,11 @@ A companion extension for `codecompanion.nvim` that provides beautiful, configur
 
 ## 📦 Installation
 
-Install with your favorite plugin manager. This plugin is a `codecompanion.nvim` extension and should be configured within its `extensions` table.
+Install with your favorite plugin manager. This plugin is a [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) extension and should be configured within its `extensions` table.
 
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
+
+> **Note:** This is an extension for [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim). Make sure you have the main plugin installed first.
 
 ```lua
 {
