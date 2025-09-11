@@ -319,3 +319,16 @@ opts = {
   style = "none",
 }
 ```
+
+---
+
+## 🙏 Acknowledgements
+
+This extension is built for and inspired by the excellent [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) plugin by Oliver Morris.
+
+### 📚 Resources
+- [CodeCompanion UI Documentation](https://codecompanion.olimorris.dev/usage/ui.html) - Learn more about CodeCompanion's UI features
+- [CodeCompanion Discussions](https://github.com/olimorris/codecompanion.nvim/discussions) - Community discussions and support
+
+### 🤝 Contributing
+We welcome contributions! Please see the main repository for contribution guidelines and feel free to open issues or discussions for this extension.
