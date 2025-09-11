@@ -332,3 +332,6 @@ This extension is built for and inspired by the excellent [`codecompanion.nvim`]
 
 ### 🤝 Contributing
 We welcome contributions! Please see the main repository for contribution guidelines and feel free to open issues or discussions for this extension.
+
+### 📹 Project Sharing
+This project was developed and shared publicly to help other Neovim users enhance their CodeCompanion experience with beautiful, customizable spinners. The code is freely available for anyone to use, modify, and contribute to.
