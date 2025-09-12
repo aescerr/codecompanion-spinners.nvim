@@ -1,0 +1,10 @@
+-- Busted configuration for CodeCompanion Spinners
+return {
+  default = {
+    verbose = true,
+    colors = true,
+    pattern = "_spec.lua$",
+    root = "./tests",
+    helper = "./tests/minimal_init.lua"
+  }
+}
