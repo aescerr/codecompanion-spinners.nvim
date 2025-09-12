@@ -28,9 +28,11 @@ Install with your favorite plugin manager. This plugin is a [`codecompanion.nvim
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
      "lalitmee/codecompanion-spinners.nvim", -- Install the spinners extension
-     -- 📦 Optional dependencies for certain spinner styles:
-     -- "j-hui/fidget.nvim",
-     -- "folke/snacks.nvim",
+      -- 📦 Optional dependencies for certain spinner styles:
+      -- "j-hui/fidget.nvim",
+      -- "folke/snacks.nvim",
+      -- "nvim-lualine/lualine.nvim",
+      -- "rebelot/heirline.nvim",
   },
   opts = {
     -- ... your main codecompanion config ...
@@ -58,7 +60,7 @@ Here is the complete default configuration. You only need to specify the values 
 ```lua
 {
 	-- The spinner style to use.
-	-- Available options: "cursor-relative", "snacks", "fidget", "native", "none"
+	-- Available options: "cursor-relative", "snacks", "fidget", "lualine", "heirline", "native", "none"
 	style = "cursor-relative",
 
 	-- Default icon to show when spinners are idle (default: "")

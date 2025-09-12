@@ -38,6 +38,7 @@ This is a Neovim plugin extension for `codecompanion.nvim` that provides beautif
    - `fidget.lua`: Integration with fidget.nvim
    - `snacks.lua`: Rich notifications via snacks.nvim or vim.notify
    - `lualine.lua`: Statusline component for lualine.nvim
+   - `heirline.lua`: Statusline component for heirline.nvim
 
 ### Event Handling
 
@@ -143,20 +144,19 @@ require('codecompanion').setup({
 
 ### 4. lualine
 - **Type:** Statusline component
-- **Features:** Integrated status display that only shows when CodeCompanion chat panel is open, automatic updates
+- **Features:** Shows AI status with animated spinner, icons, and text messages in lualine
 - **Dependencies:** `nvim-lualine/lualine.nvim`
-- **Configuration:** Uses global `default_icon` for active states, shows nothing when chat is closed
+- **Configuration:** Uses default icon and state-based messages like other spinners
 - **Usage:** Use `get_lualine_component()` for easy integration
-- **Note:** Currently marked as disabled in implementation - may require additional development
 - **Behavior:**
-  - Only displays content when the CodeCompanion chat panel is open and there's active AI activity
-  - Shows nothing (empty string) when chat is closed, hidden, or idle
-  - Tracks chat state using `CodeCompanionChatOpened`, `CodeCompanionChatClosed`, and `CodeCompanionChatHidden` events
-  - Displays in the statusline regardless of which buffer you're currently viewing
+  - Shows animated spinner with default icon and status messages
+  - Displays different messages for thinking, receiving, tools, done, etc.
+  - Automatically clears messages after completion
+  - Only displays when there's active AI activity
 
 **API Functions:**
-- `get_status()`: Returns the current status text string
-- `get_lualine_component()`: Returns a complete lualine component configuration
+- `get_lualine_component()`: Returns the lualine component configuration
+- `setup()`: Initializes autocmds for event handling
 
 **Example Usage:**
 ```lua
@@ -169,7 +169,47 @@ require('lualine').setup({
 })
 ```
 
-### 5. native
+**Example Display:**
+- `⠋ 🤖 Thinking...` (when AI is processing)
+- `⠙ 🤖 Receiving...` (when streaming response)
+- `✅ Done!` (when completed)
+
+### 5. heirline
+- **Type:** Statusline component
+- **Features:** Shows AI status with animated spinner, icons, and text messages in heirline
+- **Dependencies:** `rebelot/heirline.nvim`
+- **Configuration:** Uses default icon and state-based messages like other spinners
+- **Usage:** Use `get_heirline_component()` for easy integration
+- **Behavior:**
+  - Shows animated spinner with default icon and status messages
+  - Displays different messages for thinking, receiving, tools, done, etc.
+  - Automatically clears messages after completion
+  - Includes optional highlighting for better visibility
+
+**API Functions:**
+- `get_heirline_component()`: Returns the heirline component for integration
+- `status()`: Returns current status string
+
+**Example Usage:**
+```lua
+local heirline = require('heirline')
+local CodeCompanionSpinner = require('codecompanion._extensions.spinner.styles.heirline')
+
+heirline.setup({
+  statusline = {
+    -- Your other components...
+    CodeCompanionSpinner.get_heirline_component(),
+    -- More components...
+  }
+})
+```
+
+**Example Display:**
+- `⠋ 🤖 Thinking...` (when AI is processing)
+- `⠙ 🤖 Receiving...` (when streaming response)
+- `✅ Done!` (when completed)
+
+### 6. native
 - **Type:** Floating window (native)
 - **Features:** Highly configurable floating window with animated title and icon+message content
 - **Dependencies:** None (uses only built-in Neovim features)
@@ -179,7 +219,7 @@ require('lualine').setup({
   - **Window Content:** Displays state icon + configurable spacing + message text
 - **Usage:** Configure window position, size, border, title, and content spacing
 
-### 6. none
+### 7. none
 - **Type:** Disabled
 - **Features:** No spinners or notifications
 - **Dependencies:** None
@@ -367,10 +407,10 @@ docs: Update README with native spinner configuration examples
 
 ## Known Issues & TODOs
 
-1. **Lualine Spinner Status:** Lualine spinner is currently marked as disabled in implementation and may require additional development
-2. **Testing:** No automated tests currently exist
-3. **Performance:** No performance optimizations for high-frequency updates
-4. **Documentation:** Some advanced configuration examples could be expanded
+1. **Testing:** No automated tests currently exist
+2. **Performance:** No performance optimizations for high-frequency updates
+3. **Documentation:** Some advanced configuration examples could be expanded
+4. **Enhanced Lualine Features:** Could add more customization options for lualine spinner
 
 ## Future Enhancements
 
