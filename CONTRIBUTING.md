@@ -23,6 +23,13 @@ Thank you for your interest in contributing to `codecompanion-spinners.nvim`! Th
 - Test thoroughly
 - Submit a pull request
 
+## 📋 Code Principles
+
+### DRY (Don't Repeat Yourself)
+- Avoid code duplication across files
+- Shared constants and mappings are centralized (e.g., `tracker.state_map` for state name conversions)
+- When adding new shared data structures, place them in the appropriate central module rather than duplicating across spinners
+
 ## 🏗️ Development Setup
 
 ### Prerequisites
@@ -98,30 +105,62 @@ end
 
 ## 🧪 Testing
 
+### Automated Testing
+We now have a comprehensive test suite! Run tests using:
+
+```bash
+# Run all tests
+make test
+
+# Run unit tests only
+make test-unit
+
+# Run integration tests only
+make test-integration
+
+# Run with verbose output
+make test-all
+
+# Clean test artifacts
+make clean
+```
+
 ### Manual Testing
-1. Test all spinner styles: `cursor-relative`, `fidget`, `snacks`, `native`, `none`
+1. Test all spinner styles: `cursor-relative`, `fidget`, `snacks`, `lualine`, `heirline`, `native`, `none`
 2. Test different CodeCompanion events:
-   - Request start/finish
-   - Tool execution
-   - Diff operations
-   - Error states
-
+   - Request started/streaming/finished
+   - Tool started/finished
+   - Chat opened/closed
+   - Diff attached/accepted/rejected
 3. Test edge cases:
-   - Rapid successive requests
-   - Long-running operations
-   - Configuration changes during runtime
-   - Error handling
+   - Switching between spinner styles
+   - Missing dependencies
+   - Invalid configuration
 
-### Automated Testing (Future)
-We plan to add automated tests using:
-- [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) for unit tests
-- Integration tests with CodeCompanion
-- CI/CD with GitHub Actions
+### Test Structure
+```
+tests/
+├── minimal_init.lua          # Test environment setup
+├── run_tests.lua            # Test runner
+├── unit/                    # Unit tests
+│   ├── config_spec.lua      # Configuration tests
+│   └── tracker_spec.lua     # State tracker tests
+└── integration/             # Integration tests
+    ├── spinner_styles_spec.lua  # Spinner style tests
+    └── extension_spec.lua       # Extension integration tests
+```
+
+### Writing Tests
+- Use [busted](https://lunarmodules.github.io/busted/) testing framework
+- Follow the existing patterns in `*_spec.lua` files
+- Test files should be named `*_spec.lua`
+- Use `describe()`, `it()`, `before_each()`, etc.
 
 ## 📋 Pull Request Process
 
 ### Before Submitting
 - [ ] Test your changes thoroughly
+- [ ] Run the test suite: `make test`
 - [ ] Update documentation if needed
 - [ ] Follow commit message guidelines
 - [ ] Ensure no breaking changes without discussion

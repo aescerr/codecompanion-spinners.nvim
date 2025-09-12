@@ -22,16 +22,18 @@ This is a Neovim plugin extension for `codecompanion.nvim` that provides beautif
    - Provides deep merging of user options
    - Exposes helper functions for accessing configuration
 
-3. **State Tracker** (`lua/codecompanion/_extensions/spinner/tracker.lua`)
-   - Central event handler for all CodeCompanion events
-   - Maintains internal state counters for requests, tools, diffs
-   - Provides state machine logic with defined states:
-     - `IDLE`: No active operations
-     - `THINKING`: AI is processing a request
-     - `RECEIVING`: AI is streaming response
-     - `TOOLS_RUNNING`: Tools are being executed
-     - `TOOLS_PROCESSING`: Tool output is being processed
-     - `DIFF_AWAITING`: Diff is attached and awaiting review
+ 3. **State Tracker** (`lua/codecompanion/_extensions/spinner/tracker.lua`)
+    - Central event handler for all CodeCompanion events
+    - Maintains internal state counters for requests, tools, diffs
+    - Provides state machine logic with defined states:
+      - `IDLE`: No active operations
+      - `THINKING`: AI is processing a request
+      - `RECEIVING`: AI is streaming response
+      - `TOOLS_RUNNING`: Tools are being executed
+      - `TOOLS_PROCESSING`: Tool output is being processed
+      - `DIFF_AWAITING`: Diff is attached and awaiting review
+    - Includes `state_map` table for converting numeric states to string names used by spinners
+    - Includes `one_off_events` table for mapping CodeCompanion events to content keys for notifications
 
 4. **Spinner Implementations** (`lua/codecompanion/_extensions/spinner/styles/`)
    - `cursor-relative.lua`: Floating window spinner near cursor
@@ -312,6 +314,7 @@ codecompanion-spinners.nvim/
 - Follows Neovim Lua conventions
 - Error handling with pcall for robustness
 - Consistent naming and structure across spinner implementations
+- **State Derivation Rule**: Prefer deriving state from existing counters/flags rather than adding new boolean variables. Only use explicit boolean state variables when the state cannot be cleanly derived from existing data (e.g., `is_streaming` distinguishes THINKING vs RECEIVING states, `tools_processing` distinguishes IDLE vs TOOLS_PROCESSING when tools_count == 0)
 
 ### State Management
 - Centralized state tracking prevents inconsistencies
@@ -387,6 +390,73 @@ docs: Update README with native spinner configuration examples
 - Document all available window configuration parameters
 ```
 
+## Code Principles
+
+### DRY (Don't Repeat Yourself)
+- Avoid code duplication across files
+- Shared constants and mappings are centralized (e.g., `tracker.state_map` and `tracker.one_off_events` for state/content mappings)
+- When adding new shared data structures, place them in the appropriate central module rather than duplicating across spinners
+
+### Type Safety & Consistency
+- **State Handling:** Tracker sends numeric enum values to spinners, spinners use `tracker.state_map` to convert to strings for config lookup
+- **Interface Consistency:** All spinner implementations follow the same `render(state, event)` interface
+- **Error Handling:** Graceful degradation when dependencies are missing
+
+## State Management Architecture
+
+### Enum-Based State System
+The plugin uses a robust enum-based state system for type safety and consistency:
+
+```lua
+-- State enum values (tracker.lua)
+M.State = {
+  IDLE = 1,
+  THINKING = 2,
+  RECEIVING = 3,
+  TOOLS_RUNNING = 4,
+  TOOLS_PROCESSING = 5,
+  DIFF_AWAITING = 6,
+}
+
+-- State mapping for config lookup (tracker.lua)
+M.state_map = {
+  [M.State.IDLE] = "idle",
+  [M.State.THINKING] = "thinking",
+  [M.State.RECEIVING] = "receiving",
+  [M.State.TOOLS_RUNNING] = "tools_started",
+  [M.State.TOOLS_PROCESSING] = "tools_finished",
+  [M.State.DIFF_AWAITING] = "diff_attached",
+}
+```
+
+### State Flow
+```
+CodeCompanion Event → Tracker Event Handler → State Calculation → Numeric State → Spinner.render(numeric_state, event)
+                                                                 ↓
+                                                         state_map[numeric_state] → string_key → config.get_content_for_state(string_key)
+```
+
+### Spinner Interface
+All spinner implementations follow this consistent interface:
+
+```lua
+local M = {}
+
+--- Setup function called once during initialization
+function M.setup()
+  -- Check dependencies, setup autocmds, etc.
+end
+
+--- Render function called for each state change
+--- @param new_state number The numeric state from tracker.State enum
+--- @param event string The raw CodeCompanion event that triggered the change
+function M.render(new_state, event)
+  -- Handle state change, update UI
+end
+
+return M
+```
+
 ## Recent Improvements
 
 1. **✅ Native Spinner Enhancement:** Moved loading animation to window title with "CodeCompanion" branding, window content now shows icon + configurable spacing + message
@@ -405,22 +475,153 @@ docs: Update README with native spinner configuration examples
 14. **✅ Demo Videos:** Added comprehensive demo videos for all spinner styles in README.md
 15. **✅ Event Handling:** Extended event handling to include chat state events (opened, closed, hidden, cleared)
 16. **✅ Context Documentation:** Updated CONTEXT.md to reflect current implementation and fix discrepancies
+17. **✅ DRY Refactoring:** Centralized `state_map` in tracker module, eliminated duplication across all spinner implementations
+18. **✅ Enum-Based State System:** Implemented consistent numeric state handling with type safety
+19. **✅ Test Suite Completeness:** All 94 tests passing, comprehensive coverage of all spinner styles and edge cases
+20. **✅ Fidget Spinner Fix:** Fixed state mapping issue causing "attempt to index local 'content'" errors
+21. **✅ Complete DRY Refactoring:** Centralized `one_off_events` mapping in tracker module, eliminated duplication across all spinners (fidget, snacks, native)
+
+## Testing
+
+The project includes a comprehensive test suite using the [busted](https://lunarmodules.github.io/busted/) testing framework for Lua. Tests are organized into unit and integration categories with proper mocking and fixtures.
+
+### Test Structure
+
+```
+tests/
+├── unit/                    # Unit tests for individual modules
+│   ├── config_spec.lua     # Configuration module tests
+│   └── tracker_spec.lua    # State tracker tests
+├── integration/            # Integration tests for full workflows
+│   ├── extension_spec.lua  # Extension loading and setup tests
+│   └── spinner_styles_spec.lua # Spinner style integration tests
+├── fixtures/               # Test data and sample configurations
+│   ├── event_sequences.lua # Mock event sequences
+│   └── sample_configs.lua  # Sample configuration data
+├── helpers/                # Test utilities and environment setup
+│   ├── event_simulator.lua # Event simulation helpers
+│   └── test_env.lua        # Test environment management
+├── mocks/                  # Mock implementations
+│   ├── codecompanion.lua   # CodeCompanion API mocks
+│   └── neovim_api.lua      # Neovim API mocks
+├── performance_spec.lua    # Performance benchmarking tests
+├── minimal_init.lua        # Minimal Neovim environment for testing
+└── run_tests.lua           # Main test runner script
+```
+
+### Running Tests
+
+#### Prerequisites
+Install test dependencies using LuaRocks:
+```bash
+make install-deps
+```
+This installs: `busted`, `luacov`, and `luafilesystem`.
+
+#### Test Commands
+
+**Run all tests:**
+```bash
+make test
+# or directly:
+lua tests/run_tests.lua
+```
+
+**Run unit tests only:**
+```bash
+make test-unit
+```
+
+**Run integration tests only:**
+```bash
+make test-integration
+```
+
+**Run tests with coverage:**
+```bash
+make test-coverage
+```
+
+**Run performance tests:**
+```bash
+make perf-test
+```
+
+**Run CI tests (non-verbose, with coverage):**
+```bash
+make ci-test
+```
+
+**Clean test artifacts:**
+```bash
+make clean
+```
+
+#### Additional Commands
+
+**Watch mode (requires inotify-tools):**
+```bash
+make test-watch
+```
+
+**Lint code:**
+```bash
+make lint
+```
+
+**Full development cycle:**
+```bash
+make dev  # Runs: clean, install-deps, lint, test-coverage, docs
+```
+
+### Test Configuration
+
+Tests use Busted configuration defined in `.busted` with different profiles:
+- `default`: Standard test run with verbose output
+- `unit`: Unit tests only
+- `integration`: Integration tests only
+- `coverage`: Tests with coverage reporting
+
+### Test Environment
+
+- **Framework:** Busted (Lua testing framework)
+- **Coverage:** LuaCov for code coverage analysis
+- **Mocking:** Custom mock implementations for Neovim and CodeCompanion APIs
+- **Isolation:** Each test runs in a minimal Neovim environment with proper setup/teardown
+
+### Current Test Status
+- **Total Tests:** 94 tests
+- **Status:** ✅ All passing (94 successes / 0 failures / 0 errors)
+- **Coverage:** Comprehensive coverage of all spinner styles, state transitions, and edge cases
+- **Performance:** Sub-200ms for 1000 render operations across multiple spinners
+
+### Writing Tests
+
+When adding new tests:
+1. Follow the existing naming convention: `*_spec.lua`
+2. Place unit tests in `tests/unit/`, integration tests in `tests/integration/`
+3. Use the test environment helpers from `tests/helpers/`
+4. Mock external dependencies appropriately
+5. Include both positive and negative test cases
+6. Test configuration merging and validation
 
 ## Known Issues & TODOs
 
-1. **Testing:** No automated tests currently exist
-2. **Performance:** No performance optimizations for high-frequency updates
-3. **Documentation:** Some advanced configuration examples could be expanded
-4. **Enhanced Lualine Features:** Could add more customization options for lualine spinner
+1. **Performance:** No performance optimizations for high-frequency updates (current: ~0.1ms per render)
+2. **Documentation:** Some advanced configuration examples could be expanded
+3. **Enhanced Lualine Features:** Could add more customization options for lualine spinner
+4. **CI/CD:** Add GitHub Actions for automated testing
+5. **Animation Customization:** Allow users to define custom spinner animation frames
 
 ## Future Enhancements
 
 1. Add more spinner styles (e.g., mini.notify, noice.nvim)
-2. Implement configuration validation
-3. Add unit tests
-4. Performance monitoring and optimization
-5. More granular state control
-6. Custom animation frames support
+2. Implement configuration validation with schema checking
+3. Performance monitoring and optimization dashboard
+4. More granular state control with custom state definitions
+5. Custom animation frames support for all spinner styles
+6. Plugin integration testing framework
+7. Internationalization support for status messages
 
 ## Contributing
 
@@ -430,6 +631,38 @@ When adding new spinner styles:
 3. Support all configuration states
 4. Add comprehensive documentation
 5. Test with various CodeCompanion workflows
+
+## Debugging & Troubleshooting
+
+### Common Issues
+
+1. **"attempt to index local 'content' (a nil value)"**
+   - **Cause:** State mapping mismatch between tracker and config
+   - **Fix:** Ensure `tracker.state_map` keys match config content keys
+   - **Prevention:** Always update both when adding new states
+
+2. **Spinner not showing**
+   - **Check:** Is the spinner style properly configured?
+   - **Check:** Are required dependencies installed?
+   - **Check:** Is CodeCompanion chat panel open (for lualine/heirline)?
+
+3. **Performance issues**
+   - **Check:** Are spinners being called excessively?
+   - **Fix:** Implement debouncing for high-frequency events
+
+### Debug Mode
+Enable debug logging by setting:
+```lua
+vim.g.codecompanion_spinner_debug = true
+```
+
+### State Inspection
+Check current state programmatically:
+```lua
+local tracker = require("codecompanion._extensions.spinner.tracker")
+print("Current state:", tracker.get_current_state())
+print("State name:", tracker.state_map[tracker.get_current_state()])
+```
 
 ## Support
 

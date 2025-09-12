@@ -8,6 +8,10 @@ local M = {}
 local config = require("codecompanion._extensions.spinner.config")
 local tracker = require("codecompanion._extensions.spinner.tracker")
 
+-- State mapping for content
+local state_map = tracker.state_map
+local tracker = require("codecompanion._extensions.spinner.tracker")
+
 -- Holds the state of the floating window
 local ui = {
 	timer = nil,
@@ -58,13 +62,18 @@ local function close_window()
 		ui.timer:close()
 		ui.timer = nil
 	end
-	if ui.win and vim.api.nvim_win_is_valid(ui.win) then
-		pcall(vim.api.nvim_win_close, ui.win, true)
-	end
 	if ui.buf and vim.api.nvim_buf_is_valid(ui.buf) then
 		pcall(vim.api.nvim_buf_delete, ui.buf, { force = true })
+		ui.buf = nil
 	end
-	ui.win, ui.buf, ui.frame = nil, nil, 1
+	if ui.win and vim.api.nvim_win_is_valid(ui.win) then
+		vim.api.nvim_win_close(ui.win, false)
+		ui.win = nil
+	end
+	ui.frame = 1
+
+	-- Force redraw to ensure the window is closed visually
+	vim.cmd("redraw!")
 end
 
 local function update_spinner_display()
@@ -73,7 +82,8 @@ local function update_spinner_display()
 		return
 	end
 
-	local content = config.get_content_for_state(ui.current_state)
+	local state_name = state_map[ui.current_state] or "idle"
+	local content = config.get_content_for_state(state_name)
 	local title_text = get_title_text(content, true)
 	local window_icon = get_window_icon(content, true)
 	local window_text = string.format(" %s%s%s ", window_icon, content.spacing, content.message)
@@ -137,7 +147,7 @@ local function start_spinner()
 end
 
 --- The main render function called by the plugin's core.
---- @param new_state string The new state from the tracker.
+--- @param new_state number The new state from the tracker.
 --- @param event string The raw event that triggered the state change.
 function M.render(new_state, event)
 	-- Handle persistent states
@@ -180,15 +190,7 @@ function M.render(new_state, event)
 	end
 
 	-- Handle one-off notification events
-	local one_off_events = {
-		["CodeCompanionDiffAccepted"] = "diff_accepted",
-		["CodeCompanionDiffRejected"] = "diff_rejected",
-		["CodeCompanionChatOpened"] = "chat_opened",
-		["CodeCompanionChatHidden"] = "chat_hidden",
-		["CodeCompanionChatClosed"] = "chat_closed",
-		["CodeCompanionChatCleared"] = "cleared",
-	}
-	local state_key = one_off_events[event]
+	local state_key = tracker.one_off_events[event]
 	if state_key then
 		local content = config.get_content_for_state(state_key)
 		-- For one-off events, update the current window if it exists

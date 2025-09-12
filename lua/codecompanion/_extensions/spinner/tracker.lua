@@ -8,12 +8,32 @@ local M = {}
 -- An enum-like table for the possible states.
 -- This provides a clear contract between the tracker and the renderers.
 M.State = {
-    IDLE = "idle",
-    THINKING = "thinking",
-    RECEIVING = "receiving",
-    TOOLS_RUNNING = "tools_started",
-    TOOLS_PROCESSING = "tools_finished",
-    DIFF_AWAITING = "diff_attached",
+    IDLE = 1,
+    THINKING = 2,
+    RECEIVING = 3,
+    TOOLS_RUNNING = 4,
+    TOOLS_PROCESSING = 5,
+    DIFF_AWAITING = 6,
+}
+
+-- State name mapping for renderers
+M.state_map = {
+    [M.State.IDLE] = "idle",
+    [M.State.THINKING] = "thinking",
+    [M.State.RECEIVING] = "receiving",
+    [M.State.TOOLS_RUNNING] = "tools_started",
+    [M.State.TOOLS_PROCESSING] = "tools_finished",
+    [M.State.DIFF_AWAITING] = "diff_attached",
+}
+
+-- Mapping from CodeCompanion events to content keys for one-off notifications
+M.one_off_events = {
+    ["CodeCompanionDiffAccepted"] = "diff_accepted",
+    ["CodeCompanionDiffRejected"] = "diff_rejected",
+    ["CodeCompanionChatOpened"] = "chat_opened",
+    ["CodeCompanionChatHidden"] = "chat_hidden",
+    ["CodeCompanionChatClosed"] = "chat_closed",
+    ["CodeCompanionChatCleared"] = "cleared",
 }
 
 -- Internal state counters
@@ -22,6 +42,7 @@ local state = {
     tools_count = 0,
     diff_count = 0,
     is_streaming = false,
+    tools_processing = false,
 }
 
 -- The callback to be fired on state change.
@@ -30,8 +51,8 @@ local on_state_change_callback = nil
 --- Determines the current state based on the internal counters.
 --- @return string The current state from M.State
 local function get_current_state()
-    if state.diff_count > 0 then
-        return M.State.DIFF_AWAITING
+    if state.tools_processing then
+        return M.State.TOOLS_PROCESSING
     end
     if state.tools_count > 0 then
         return M.State.TOOLS_RUNNING
@@ -42,17 +63,22 @@ local function get_current_state()
         end
         return M.State.THINKING
     end
+    if state.diff_count > 0 then
+        return M.State.DIFF_AWAITING
+    end
     return M.State.IDLE
 end
 
 --- The main event handler for all CodeCompanion user events.
 --- @param args table The arguments provided by the autocmd.
 local function handle_event(args)
+    if not args then return end
+
     local was_active = (state.request_count > 0) or (state.tools_count > 0) or (state.diff_count > 0)
     local previous_state = get_current_state()
 
     -- Update state counters based on the event
-    local event = args.match
+    local event = type(args) == "string" and args or args.match
     if event == "CodeCompanionRequestStarted" then
         state.request_count = state.request_count + 1
     elseif event == "CodeCompanionRequestStreaming" then
@@ -64,11 +90,19 @@ local function handle_event(args)
         state.tools_count = state.tools_count + 1
     elseif event == "CodeCompanionToolFinished" then
         state.tools_count = math.max(0, state.tools_count - 1)
+        if state.tools_count == 0 then
+            state.tools_processing = true
+        end
     elseif event == "CodeCompanionToolsFinished" then -- A flush event
         state.tools_count = 0
+        state.tools_processing = false
     elseif event == "CodeCompanionDiffAttached" then
         state.diff_count = state.diff_count + 1
     elseif event == "CodeCompanionDiffDetached" then
+        state.diff_count = math.max(0, state.diff_count - 1)
+    elseif event == "CodeCompanionDiffAccepted" then
+        state.diff_count = math.max(0, state.diff_count - 1)
+    elseif event == "CodeCompanionDiffRejected" then
         state.diff_count = math.max(0, state.diff_count - 1)
     elseif event == "CodeCompanionChatDone" or event == "CodeCompanionChatStopped" then
         -- Force reset on chat completion
@@ -76,6 +110,7 @@ local function handle_event(args)
         state.tools_count = 0
         state.diff_count = 0
         state.is_streaming = false
+        state.tools_processing = false
     end
 
     local current_state = get_current_state()
@@ -116,6 +151,28 @@ function M.setup(callback)
             pcall(handle_event, args)
         end,
     })
+end
+
+--- Resets the tracker state to initial values.
+--- Useful for testing to ensure a clean state.
+function M.reset()
+    state.request_count = 0
+    state.tools_count = 0
+    state.diff_count = 0
+    state.is_streaming = false
+    state.tools_processing = false
+end
+
+--- Gets the current state (exported for testing)
+--- @return number The current state from M.State
+function M.get_current_state()
+    return get_current_state()
+end
+
+--- Handles an event (exported for testing)
+--- @param args table|string|nil The arguments provided by the autocmd or event name string (for testing).
+function M.handle_event(args)
+    handle_event(args)
 end
 
 return M

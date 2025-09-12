@@ -1,7 +1,18 @@
 local M = {}
 
 local config = require("codecompanion._extensions.spinner.config")
-local ns_id = vim.api.nvim_create_namespace("spinner")
+local tracker = require("codecompanion._extensions.spinner.tracker")
+
+-- State mapping for content
+local state_map = {
+	[tracker.State.IDLE] = "idle",
+	[tracker.State.THINKING] = "thinking",
+	[tracker.State.RECEIVING] = "receiving",
+	[tracker.State.TOOLS_RUNNING] = "tools_running",
+	[tracker.State.TOOLS_PROCESSING] = "tools_processing",
+	[tracker.State.DIFF_AWAITING] = "diff_awaiting",
+}
+local ns_id
 
 local spinner_state = {
     timer = nil,
@@ -11,6 +22,9 @@ local spinner_state = {
 }
 
 local function create_spinner_window()
+    if not ns_id then
+        ns_id = vim.api.nvim_create_namespace("spinner")
+    end
     local cursor_config = config.get()["cursor-relative"]
     local buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
@@ -101,26 +115,25 @@ function M.stop_spinner()
         spinner_state.timer = nil
     end
 
-    -- safely close the window if it exists and is valid
-    if spinner_state.win then
-        pcall(vim.api.nvim_win_close, spinner_state.win, true)
-        spinner_state.win = nil
-    end
-
     if spinner_state.buf then
         pcall(vim.api.nvim_buf_delete, spinner_state.buf, { force = true })
         spinner_state.buf = nil
     end
+    -- Window will be closed automatically when buffer is deleted
+    spinner_state.win = nil
     spinner_state.frame = 1
+
+    -- Force redraw to ensure the window is closed visually
+    vim.cmd("redraw")
 end
 
 --- The main render function called by the plugin's core.
---- @param new_state string The new state from the tracker.
+--- @param new_state number The new state from the tracker.
 --- @param event string The raw event that triggered the state change.
 function M.render(new_state, event)
-    if new_state ~= "idle" and not spinner_state.timer then
+    if new_state ~= tracker.State.IDLE and not spinner_state.timer then
         M.start_spinner()
-    elseif new_state == "idle" and spinner_state.timer then
+    elseif new_state == tracker.State.IDLE and spinner_state.timer then
         M.stop_spinner()
     end
 end

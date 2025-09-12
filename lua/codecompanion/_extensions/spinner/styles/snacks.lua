@@ -8,11 +8,16 @@ local M = {}
 local config = require("codecompanion._extensions.spinner.config")
 local tracker = require("codecompanion._extensions.spinner.tracker")
 
+-- State mapping for content
+local state_map = tracker.state_map
+
 local NOTIFICATION_ID = "codecompanion_spinner"
 
 local function show_notification(content, is_done, is_spinning)
 	local config = require("codecompanion._extensions.spinner.config")
-	local default_icon = config.get().default_icon
+	local cfg = config.get()
+	if not cfg then return end
+	local default_icon = cfg.default_icon
 
 	local ok, _ = pcall(require, "snacks")
 	if not ok then
@@ -61,27 +66,20 @@ local function show_notification(content, is_done, is_spinning)
 end
 
 --- The main render function called by the plugin's core.
---- @param new_state string The new state from the tracker.
+--- @param new_state number The new state from the tracker.
 --- @param event string The raw event that triggered the state change.
 function M.render(new_state, event)
 	if new_state == tracker.State.IDLE then
 		local content = config.get_content_for_state("done")
 		show_notification(content, true, false)
 	else
-		local content = config.get_content_for_state(new_state)
+		local state_name = state_map[new_state] or "idle"
+		local content = config.get_content_for_state(state_name)
 		show_notification(content, false, true)
 	end
 
 	-- Handle one-off notification events that don't have a persistent state
-	local one_off_events = {
-		["CodeCompanionDiffAccepted"] = "diff_accepted",
-		["CodeCompanionDiffRejected"] = "diff_rejected",
-		["CodeCompanionChatOpened"] = "chat_opened",
-		["CodeCompanionChatHidden"] = "chat_hidden",
-		["CodeCompanionChatClosed"] = "chat_closed",
-		["CodeCompanionChatCleared"] = "cleared",
-	}
-	local state_key = one_off_events[event]
+	local state_key = tracker.one_off_events[event]
 	if state_key then
 		local content = config.get_content_for_state(state_key)
 		show_notification(content, true, false)

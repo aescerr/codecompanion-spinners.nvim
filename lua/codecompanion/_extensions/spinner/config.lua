@@ -89,15 +89,51 @@ M.defaults = {
 -- Holds the active configuration after merging defaults with user options.
 M.options = {}
 
+--- Simple deep merge implementation for testing compatibility
+local function deep_merge(target, source)
+	if type(target) ~= "table" or type(source) ~= "table" then
+		return source or target
+	end
+
+	local result = {}
+	-- Copy target
+	for k, v in pairs(target) do
+		result[k] = deep_merge({}, v)
+	end
+	-- Merge source
+	for k, v in pairs(source) do
+		if type(result[k]) == "table" and type(v) == "table" then
+			result[k] = deep_merge(result[k], v)
+		else
+			result[k] = v
+		end
+	end
+	return result
+end
+
 --- Merges the user's options with the default configuration.
 --- @param user_opts table The configuration table provided by the user.
 function M.load(user_opts)
 	user_opts = user_opts or {}
+	-- Start with defaults or current options
+	local base = next(M.options) and M.options or M.defaults
 	-- Deep merge the content table, otherwise user would have to redefine all content
-	local merged_content = vim.tbl_deep_extend("force", vim.deepcopy(M.defaults.content), user_opts.content or {})
-	local merged_opts = vim.tbl_deep_extend("force", vim.deepcopy(M.defaults), user_opts)
+	local merged_content = deep_merge(base.content, user_opts.content or {})
+	local merged_opts = deep_merge(base, user_opts)
 	merged_opts.content = merged_content
+
+	-- Validate style, fall back to default if invalid
+	if not M.validate({ style = merged_opts.style }) then
+		merged_opts.style = M.defaults.style
+	end
+
 	M.options = merged_opts
+end
+
+--- Alias for load() for backward compatibility with tests
+--- @param user_opts table The configuration table provided by the user.
+function M.merge(user_opts)
+	M.load(user_opts)
 end
 
 --- Returns the currently active configuration table.
@@ -108,9 +144,58 @@ end
 
 --- A helper function to get the content for a specific state.
 --- @param state string The name of the state (e.g., "thinking").
---- @return table The content table for that state (e.g., { icon = "...", message = "..." }).
+--- @return table|nil The content table for that state (e.g., { icon = "...", message = "..." }), or nil if state doesn't exist.
 function M.get_content_for_state(state)
-	return M.options.content[state] or {}
+	return M.options.content[state]
+end
+
+--- Validates a configuration table.
+--- @param cfg table The configuration to validate.
+--- @return boolean True if valid, false otherwise.
+function M.validate(cfg)
+	if not cfg or type(cfg) ~= "table" then
+		return false
+	end
+
+	-- Validate style
+	local valid_styles = {
+		"cursor-relative", "snacks", "fidget", "lualine", "heirline", "native", "none"
+	}
+	if cfg.style == nil then
+		return false
+	end
+	local style_valid = false
+	for _, valid_style in ipairs(valid_styles) do
+		if cfg.style == valid_style then
+			style_valid = true
+			break
+		end
+	end
+	if not style_valid then
+		return false
+	end
+
+	-- Validate content structure
+	if cfg.content and type(cfg.content) ~= "table" then
+		return false
+	end
+
+	return true
+end
+
+--- Resets the configuration to defaults.
+--- Useful for testing to ensure a clean state.
+function M.reset()
+	-- Simple deep copy implementation for testing
+	local function deep_copy(obj)
+		if type(obj) ~= "table" then return obj end
+		local res = {}
+		for k, v in pairs(obj) do
+			res[k] = deep_copy(v)
+		end
+		return res
+	end
+	M.options = deep_copy(M.defaults)
 end
 
 return M

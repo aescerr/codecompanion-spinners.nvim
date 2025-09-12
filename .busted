@@ -1,0 +1,42 @@
+-- Busted configuration for CodeCompanion Spinners
+return {
+  default = {
+    verbose = true,
+    colors = true,
+    pattern = "_spec.lua$",
+    root = "./tests",
+    helper = "./tests/minimal_init.lua",
+    output = "utfTerminal"
+  },
+
+  unit = {
+    verbose = true,
+    colors = true,
+    pattern = "tests/unit/*_spec.lua$",
+    root = "./tests",
+    helper = "./tests/minimal_init.lua"
+  },
+
+  integration = {
+    verbose = true,
+    colors = true,
+    pattern = "tests/integration/*_spec.lua$",
+    root = "./tests",
+    helper = "./tests/minimal_init.lua"
+  },
+
+  coverage = {
+    verbose = true,
+    colors = true,
+    pattern = "_spec.lua$",
+    root = "./tests",
+    helper = "./tests/minimal_init.lua",
+    output = "utfTerminal",
+    coverage = true,
+    covrunner = "luacov",
+    exclude = {
+      "tests/.*",
+      ".*/init.lua"
+    }
+  }
+}
