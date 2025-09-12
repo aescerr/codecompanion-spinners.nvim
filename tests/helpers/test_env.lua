@@ -1,8 +1,8 @@
 -- Test environment setup and teardown
 local M = {}
 
-local neovim_mock = require("tests.mocks.neovim_api")
 local codecompanion_mock = require("tests.mocks.codecompanion")
+local neovim_mock = require("tests.mocks.neovim_api")
 
 -- Setup test environment
 M.setup = function()
@@ -51,9 +51,11 @@ M.mock_module = function(module_name)
     }
     if module_name == "fidget" then
       mock.progress = {
-        handle_create = function() return { id = 1 } end,
+        handle_create = function()
+          return { id = 1 }
+        end,
         handle_update = function() end,
-        handle_close = function() end
+        handle_close = function() end,
       }
     elseif module_name == "snacks" then
       mock.notify = function() end
@@ -69,7 +71,7 @@ end
 
 -- Create a temporary buffer for testing
 M.create_test_buffer = function(content)
-  content = content or {"line 1", "line 2", "line 3"}
+  content = content or { "line 1", "line 2", "line 3" }
   local bufnr = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, content)
   return bufnr
@@ -92,14 +94,16 @@ end
 
 -- Assert helper for event sequences
 M.assert_event_sequence = function(expected_events, actual_events)
-  assert(#expected_events == #actual_events, string.format(
-    "Event count mismatch: expected %d, got %d", #expected_events, #actual_events
-  ))
+  assert(
+    #expected_events == #actual_events,
+    string.format("Event count mismatch: expected %d, got %d", #expected_events, #actual_events)
+  )
 
   for i, expected in ipairs(expected_events) do
-    assert(expected == actual_events[i], string.format(
-      "Event %d mismatch: expected '%s', got '%s'", i, expected, actual_events[i]
-    ))
+    assert(
+      expected == actual_events[i],
+      string.format("Event %d mismatch: expected '%s', got '%s'", i, expected, actual_events[i])
+    )
   end
 end
 
@@ -118,7 +122,7 @@ M.measure_performance = function(fn, iterations)
   return {
     total_time = total_time,
     average_time = total_time / iterations,
-    iterations = iterations
+    iterations = iterations,
   }
 end
 

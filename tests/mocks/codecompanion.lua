@@ -7,8 +7,8 @@ M._chat_metadata = {
   [1] = { -- Mock buffer 1
     tokens = 150,
     cycles = 3,
-    model = "gpt-4"
-  }
+    model = "gpt-4",
+  },
 }
 
 -- Mock CodeCompanion events
@@ -33,7 +33,7 @@ M.events = {
   -- Diff events
   "CodeCompanionDiffAttached",
   "CodeCompanionDiffAccepted",
-  "CodeCompanionDiffRejected"
+  "CodeCompanionDiffRejected",
 }
 
 -- Event simulation utilities
@@ -41,7 +41,7 @@ M.simulate_event = function(event_name, delay)
   delay = delay or 0
   vim.defer_fn(function()
     vim.api.nvim_exec_autocmds("User", {
-      pattern = event_name
+      pattern = event_name,
     })
   end, delay)
 end
@@ -59,14 +59,14 @@ M.sequences = {
   basic_request = {
     "CodeCompanionRequestStarted",
     "CodeCompanionRequestStreaming",
-    "CodeCompanionRequestFinished"
+    "CodeCompanionRequestFinished",
   },
 
   -- Tool execution flow
   tool_execution = {
     "CodeCompanionToolStarted",
     "CodeCompanionToolFinished",
-    "CodeCompanionToolsFinished"
+    "CodeCompanionToolsFinished",
   },
 
   -- Complete workflow
@@ -78,20 +78,20 @@ M.sequences = {
     "CodeCompanionToolFinished",
     "CodeCompanionToolsFinished",
     "CodeCompanionRequestFinished",
-    "CodeCompanionChatClosed"
+    "CodeCompanionChatClosed",
   },
 
   -- Diff workflow
   diff_workflow = {
     "CodeCompanionDiffAttached",
-    "CodeCompanionDiffAccepted"
+    "CodeCompanionDiffAccepted",
   },
 
   -- Error scenarios
   interrupted_request = {
     "CodeCompanionRequestStarted",
     "CodeCompanionRequestStreaming",
-    "CodeCompanionChatStopped"
+    "CodeCompanionChatStopped",
   },
 
   -- Rapid events
@@ -101,8 +101,8 @@ M.sequences = {
     "CodeCompanionRequestFinished",
     "CodeCompanionRequestStarted",
     "CodeCompanionRequestStreaming",
-    "CodeCompanionRequestFinished"
-  }
+    "CodeCompanionRequestFinished",
+  },
 }
 
 -- Mock CodeCompanion global variables
@@ -130,8 +130,8 @@ M.reset = function()
     [1] = {
       tokens = 150,
       cycles = 3,
-      model = "gpt-4"
-    }
+      model = "gpt-4",
+    },
   }
 end
 

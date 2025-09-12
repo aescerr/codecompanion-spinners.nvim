@@ -69,19 +69,19 @@ The plugin listens to the following CodeCompanion events:
 - **Features:** Animated spinner, temporary messages
 - **Dependencies:** None
 - **Configuration:**
-  ```lua
-  ["cursor-relative"] = {
-    text = "",
-    hl_positions = {
-      { 0, 3 }, -- First circle
-      { 3, 6 }, -- Second circle
-      { 6, 9 }, -- Third circle
-    },
-    interval = 100,
-    hl_group = "Title",
-    hl_dim_group = "NonText",
-  }
-  ```
+   ```lua
+   ["cursor-relative"] = {
+     text = "",
+     hl_positions = {
+       { 0, 3 }, -- First circle
+       { 3, 6 }, -- Second circle
+       { 6, 9 }, -- Third circle
+     },
+     interval = 100,
+     hl_group = "Cursor",
+     hl_dim_group = "Comment",
+   }
+   ```
 
 ### 2. fidget
 - **Type:** Progress notification in fidget window
@@ -480,6 +480,7 @@ return M
 19. **✅ Test Suite Completeness:** All 94 tests passing, comprehensive coverage of all spinner styles and edge cases
 20. **✅ Fidget Spinner Fix:** Fixed state mapping issue causing "attempt to index local 'content'" errors
 21. **✅ Complete DRY Refactoring:** Centralized `one_off_events` mapping in tracker module, eliminated duplication across all spinners (fidget, snacks, native)
+22. **✅ Improved Highlight Groups:** Updated cursor-relative spinner defaults from `Title`/`NonText` to `Cursor`/`Comment` for better visibility across colorschemes
 
 ## Testing
 

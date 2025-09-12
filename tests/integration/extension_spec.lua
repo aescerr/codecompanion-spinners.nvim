@@ -17,7 +17,7 @@ describe("Extension Integration", function()
     it("should setup with custom config", function()
       local custom_config = {
         style = "snacks",
-        default_icon = "🤖"
+        default_icon = "🤖",
       }
 
       assert.has_no.errors(function()
@@ -32,7 +32,7 @@ describe("Extension Integration", function()
 
     it("should handle invalid style gracefully", function()
       local custom_config = {
-        style = "invalid-style"
+        style = "invalid-style",
       }
 
       -- Should not error but fall back to default
@@ -115,7 +115,7 @@ describe("Extension Integration", function()
       assert.has_no.errors(function()
         -- These would normally be triggered by CodeCompanion
         vim.api.nvim_exec_autocmds("User", {
-          pattern = "CodeCompanionRequestStarted"
+          pattern = "CodeCompanionRequestStarted",
         })
       end)
     end)
@@ -125,13 +125,13 @@ describe("Extension Integration", function()
 
       assert.has_no.errors(function()
         vim.api.nvim_exec_autocmds("User", {
-          pattern = "CodeCompanionRequestStarted"
+          pattern = "CodeCompanionRequestStarted",
         })
         vim.api.nvim_exec_autocmds("User", {
-          pattern = "CodeCompanionRequestStreaming"
+          pattern = "CodeCompanionRequestStreaming",
         })
         vim.api.nvim_exec_autocmds("User", {
-          pattern = "CodeCompanionRequestFinished"
+          pattern = "CodeCompanionRequestFinished",
         })
       end)
     end)
@@ -141,7 +141,7 @@ describe("Extension Integration", function()
 
       assert.has_no.errors(function()
         vim.api.nvim_exec_autocmds("User", {
-          pattern = "UnknownEvent"
+          pattern = "UnknownEvent",
         })
       end)
     end)
@@ -151,12 +151,12 @@ describe("Extension Integration", function()
     it("should persist configuration across setup calls", function()
       extension.setup({
         style = "snacks",
-        default_icon = "🤖"
+        default_icon = "🤖",
       })
 
       -- Call setup again with different config
       extension.setup({
-        style = "fidget"
+        style = "fidget",
       })
 
       -- Should keep the merged config
@@ -183,7 +183,7 @@ describe("Extension Integration", function()
     it("should handle config validation errors", function()
       local invalid_config = {
         style = "invalid",
-        content = "not a table"
+        content = "not a table",
       }
 
       assert.has_no.errors(function()
@@ -211,10 +211,10 @@ describe("Extension Integration", function()
       -- Simulate events that should update tracker state
       assert.has_no.errors(function()
         vim.api.nvim_exec_autocmds("User", {
-          pattern = "CodeCompanionRequestStarted"
+          pattern = "CodeCompanionRequestStarted",
         })
         vim.api.nvim_exec_autocmds("User", {
-          pattern = "CodeCompanionRequestFinished"
+          pattern = "CodeCompanionRequestFinished",
         })
       end)
     end)

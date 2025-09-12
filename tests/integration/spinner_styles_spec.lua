@@ -52,22 +52,30 @@ describe("Spinner Styles Integration", function()
   describe("Spinner Style Setup", function()
     it("should setup cursor-relative without errors", function()
       local spinner = require("codecompanion._extensions.spinner.styles.cursor-relative")
-      assert.has_no.errors(function() spinner.setup() end)
+      assert.has_no.errors(function()
+        spinner.setup()
+      end)
     end)
 
     it("should setup snacks without errors", function()
       local spinner = require("codecompanion._extensions.spinner.styles.snacks")
-      assert.has_no.errors(function() spinner.setup() end)
+      assert.has_no.errors(function()
+        spinner.setup()
+      end)
     end)
 
     it("should setup lualine without errors", function()
       local spinner = require("codecompanion._extensions.spinner.styles.lualine")
-      assert.has_no.errors(function() spinner.setup() end)
+      assert.has_no.errors(function()
+        spinner.setup()
+      end)
     end)
 
     it("should setup heirline without errors", function()
       local spinner = require("codecompanion._extensions.spinner.styles.heirline")
-      assert.has_no.errors(function() spinner.setup() end)
+      assert.has_no.errors(function()
+        spinner.setup()
+      end)
     end)
 
     it("should handle setup with missing dependencies", function()
@@ -76,7 +84,9 @@ describe("Spinner Styles Integration", function()
       package.loaded.lualine = nil
 
       local lualine = require("codecompanion._extensions.spinner.styles.lualine")
-      assert.has_no.errors(function() lualine.setup() end)
+      assert.has_no.errors(function()
+        lualine.setup()
+      end)
 
       -- Restore
       package.loaded.lualine = original_lualine
@@ -89,7 +99,7 @@ describe("Spinner Styles Integration", function()
         "cursor-relative",
         "snacks",
         "fidget",
-        "native"
+        "native",
       }
 
       for _, style in ipairs(styles) do
@@ -104,7 +114,7 @@ describe("Spinner Styles Integration", function()
       local styles = {
         "cursor-relative",
         "snacks",
-        "native"
+        "native",
       }
 
       for _, style in ipairs(styles) do
@@ -197,8 +207,8 @@ describe("Spinner Styles Integration", function()
       config.merge({
         default_icon = "🤖",
         content = {
-          thinking = { message = "Custom thinking message" }
-        }
+          thinking = { message = "Custom thinking message" },
+        },
       })
 
       local snacks = require("codecompanion._extensions.spinner.styles.snacks")
@@ -210,8 +220,8 @@ describe("Spinner Styles Integration", function()
     it("should handle style-specific config", function()
       config.merge({
         ["cursor-relative"] = {
-          interval = 200
-        }
+          interval = 200,
+        },
       })
 
       local cursor_relative = require("codecompanion._extensions.spinner.styles.cursor-relative")
@@ -224,7 +234,9 @@ describe("Spinner Styles Integration", function()
   describe("Error Handling", function()
     it("should handle render with nil config", function()
       local original_get = config.get
-      config.get = function() return nil end
+      config.get = function()
+        return nil
+      end
 
       local snacks = require("codecompanion._extensions.spinner.styles.snacks")
       assert.has_no.errors(function()

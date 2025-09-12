@@ -5,14 +5,14 @@ local M = {}
 M.basic_request = {
   "CodeCompanionRequestStarted",
   "CodeCompanionRequestStreaming",
-  "CodeCompanionRequestFinished"
+  "CodeCompanionRequestFinished",
 }
 
 -- Tool execution lifecycle
 M.tool_execution = {
   "CodeCompanionToolStarted",
   "CodeCompanionToolFinished",
-  "CodeCompanionToolsFinished"
+  "CodeCompanionToolsFinished",
 }
 
 -- Complete chat session
@@ -24,19 +24,19 @@ M.full_chat_session = {
   "CodeCompanionToolStarted",
   "CodeCompanionToolFinished",
   "CodeCompanionToolsFinished",
-  "CodeCompanionChatClosed"
+  "CodeCompanionChatClosed",
 }
 
 -- Diff workflow
 M.diff_workflow = {
   "CodeCompanionDiffAttached",
-  "CodeCompanionDiffAccepted"
+  "CodeCompanionDiffAccepted",
 }
 
 -- Diff rejection
 M.diff_rejection = {
   "CodeCompanionDiffAttached",
-  "CodeCompanionDiffRejected"
+  "CodeCompanionDiffRejected",
 }
 
 -- Multiple requests
@@ -49,21 +49,21 @@ M.multiple_requests = {
   "CodeCompanionRequestFinished",
   "CodeCompanionRequestStarted",
   "CodeCompanionRequestStreaming",
-  "CodeCompanionRequestFinished"
+  "CodeCompanionRequestFinished",
 }
 
 -- Interrupted workflow
 M.interrupted_workflow = {
   "CodeCompanionRequestStarted",
   "CodeCompanionRequestStreaming",
-  "CodeCompanionChatStopped"
+  "CodeCompanionChatStopped",
 }
 
 -- Error conditions
 M.error_conditions = {
-  "CodeCompanionRequestFinished",  -- Finish without start
-  "CodeCompanionToolFinished",     -- Tool finish without start
-  "CodeCompanionToolsFinished"     -- Tools finish without start
+  "CodeCompanionRequestFinished", -- Finish without start
+  "CodeCompanionToolFinished", -- Tool finish without start
+  "CodeCompanionToolsFinished", -- Tools finish without start
 }
 
 -- Rapid events (stress test)
@@ -86,7 +86,7 @@ M.complex_workflow = {
   "CodeCompanionDiffAccepted",
   "CodeCompanionRequestFinished",
   "CodeCompanionChatCleared",
-  "CodeCompanionChatClosed"
+  "CodeCompanionChatClosed",
 }
 
 -- Chat lifecycle variations
@@ -95,7 +95,7 @@ M.chat_lifecycle = {
   closed = "CodeCompanionChatClosed",
   cleared = "CodeCompanionChatCleared",
   done = "CodeCompanionChatDone",
-  stopped = "CodeCompanionChatStopped"
+  stopped = "CodeCompanionChatStopped",
 }
 
 -- State transition tests
@@ -104,21 +104,21 @@ M.state_transitions = {
   request_flow = {
     "CodeCompanionRequestStarted",
     "CodeCompanionRequestStreaming",
-    "CodeCompanionRequestFinished"
+    "CodeCompanionRequestFinished",
   },
 
   -- IDLE → TOOLS_RUNNING → TOOLS_PROCESSING → IDLE
   tool_flow = {
     "CodeCompanionToolStarted",
     "CodeCompanionToolFinished",
-    "CodeCompanionToolsFinished"
+    "CodeCompanionToolsFinished",
   },
 
   -- IDLE → DIFF_AWAITING → IDLE
   diff_flow = {
     "CodeCompanionDiffAttached",
-    "CodeCompanionDiffAccepted"
-  }
+    "CodeCompanionDiffAccepted",
+  },
 }
 
 -- Timing-based sequences
@@ -128,19 +128,19 @@ M.timing_tests = {
     events = {
       "CodeCompanionRequestStarted",
       "CodeCompanionRequestStreaming",
-      "CodeCompanionRequestFinished"
+      "CodeCompanionRequestFinished",
     },
-    delays = {0, 500, 1000} -- milliseconds
+    delays = { 0, 500, 1000 }, -- milliseconds
   },
 
   fast_tools = {
     events = {
       "CodeCompanionToolStarted",
       "CodeCompanionToolFinished",
-      "CodeCompanionToolsFinished"
+      "CodeCompanionToolsFinished",
     },
-    delays = {0, 50, 100}
-  }
+    delays = { 0, 50, 100 },
+  },
 }
 
 -- Edge cases
@@ -149,28 +149,28 @@ M.edge_cases = {
   empty = {},
 
   -- Single event
-  single = {"CodeCompanionRequestStarted"},
+  single = { "CodeCompanionRequestStarted" },
 
   -- Duplicate events
   duplicates = {
     "CodeCompanionRequestStarted",
     "CodeCompanionRequestStarted",
-    "CodeCompanionRequestFinished"
+    "CodeCompanionRequestFinished",
   },
 
   -- Out of order events
   out_of_order = {
     "CodeCompanionRequestFinished",
     "CodeCompanionRequestStarted",
-    "CodeCompanionRequestStreaming"
+    "CodeCompanionRequestStreaming",
   },
 
   -- Unknown events
   unknown_events = {
     "CodeCompanionRequestStarted",
     "UnknownEvent",
-    "CodeCompanionRequestFinished"
-  }
+    "CodeCompanionRequestFinished",
+  },
 }
 
 -- Performance test sequences
@@ -180,7 +180,7 @@ M.performance = {
   -- Complex state changes
   complex_state_changes = {},
   -- Memory intensive sequences
-  memory_intensive = {}
+  memory_intensive = {},
 }
 
 -- Fill performance sequences
@@ -201,7 +201,7 @@ local complex_events = {
   "CodeCompanionDiffAccepted",
   "CodeCompanionToolsFinished",
   "CodeCompanionRequestFinished",
-  "CodeCompanionChatClosed"
+  "CodeCompanionChatClosed",
 }
 
 for i = 1, 100 do

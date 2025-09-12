@@ -19,7 +19,7 @@ local success = runner({
   colors = true,
   pattern = "_spec.lua$",
   root = "./tests",
-  output = "utfTerminal"
+  output = "utfTerminal",
 })
 
 -- Exit with appropriate code

@@ -78,6 +78,11 @@ perf-test:
 		-l tests.minimal_init \
 		-e "require('tests.performance_spec')"
 
+# Formatting
+format:
+	@echo "🎨 Formatting code..."
+	@./stylua --config-path .stylua.toml lua/ tests/
+
 # Linting
 lint:
 	@echo "🔍 Running linter..."
@@ -89,5 +94,5 @@ docs:
 	@ldoc -d docs/api lua/
 
 # Full development cycle
-dev: clean install-deps lint test-coverage docs
+dev: clean install-deps format lint test-coverage docs
 	@echo "🎉 Full development cycle complete!"

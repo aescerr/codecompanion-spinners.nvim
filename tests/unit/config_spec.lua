@@ -30,10 +30,20 @@ describe("Config Module", function()
 
     it("should have all required content states", function()
       local required_states = {
-        "thinking", "receiving", "done", "stopped", "cleared",
-        "tools_started", "tools_finished",
-        "diff_attached", "diff_accepted", "diff_rejected",
-        "chat_ready", "chat_opened", "chat_hidden", "chat_closed"
+        "thinking",
+        "receiving",
+        "done",
+        "stopped",
+        "cleared",
+        "tools_started",
+        "tools_finished",
+        "diff_attached",
+        "diff_accepted",
+        "diff_rejected",
+        "chat_ready",
+        "chat_opened",
+        "chat_hidden",
+        "chat_closed",
       }
 
       for _, state in ipairs(required_states) do
@@ -54,9 +64,9 @@ describe("Config Module", function()
         content = {
           thinking = {
             message = "AI is thinking...",
-            spacing = " "
-          }
-        }
+            spacing = " ",
+          },
+        },
       }
 
       config.merge(user_config)
@@ -66,15 +76,15 @@ describe("Config Module", function()
       assert.equals("🤖", cfg.default_icon)
       assert.equals("AI is thinking...", cfg.content.thinking.message)
       assert.equals(" ", cfg.content.thinking.spacing)
-       -- Should preserve other defaults
-       assert.equals("", cfg.content.thinking.icon)
+      -- Should preserve other defaults
+      assert.equals("", cfg.content.thinking.icon)
     end)
 
     it("should handle nested config merging", function()
       local user_config = {
         ["cursor-relative"] = {
-          interval = 200
-        }
+          interval = 200,
+        },
       }
 
       config.merge(user_config)
@@ -119,15 +129,15 @@ describe("Config Module", function()
       assert.is_true(config.validate({
         style = "snacks",
         content = {
-          thinking = { icon = "🤔", message = "Thinking...", spacing = " " }
-        }
+          thinking = { icon = "🤔", message = "Thinking...", spacing = " " },
+        },
       }))
     end)
 
     it("should reject invalid content structure", function()
       assert.is_false(config.validate({
         style = "snacks",
-        content = "not a table"
+        content = "not a table",
       }))
     end)
   end)
@@ -150,8 +160,8 @@ describe("Config Module", function()
       -- Modify content
       config.merge({
         content = {
-          thinking = { message = "Modified message" }
-        }
+          thinking = { message = "Modified message" },
+        },
       })
 
       -- Reset
@@ -168,9 +178,9 @@ describe("Config Module", function()
       local deep_config = {
         ["cursor-relative"] = {
           nested = {
-            value = "test"
-          }
-        }
+            value = "test",
+          },
+        },
       }
 
       config.merge(deep_config)
@@ -182,9 +192,9 @@ describe("Config Module", function()
       local array_config = {
         ["native"] = {
           window = {
-            border = "rounded"
-          }
-        }
+            border = "rounded",
+          },
+        },
       }
 
       config.merge(array_config)

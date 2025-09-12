@@ -7,7 +7,16 @@ M.spinner_index = 1
 M.last_update_time = 0
 
 local spinner_symbols = {
-  "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏",
+  "⠋",
+  "⠙",
+  "⠹",
+  "⠸",
+  "⠼",
+  "⠴",
+  "⠦",
+  "⠧",
+  "⠇",
+  "⠏",
 }
 local spinner_symbols_len = 10
 
@@ -53,7 +62,11 @@ function M.setup()
   -- Check for dependency
   local ok, _ = pcall(require, "heirline")
   if not ok then
-    vim.notify("Heirline spinner requires `heirline.nvim` plugin.", vim.log.levels.WARN, { title = "CodeCompanion Spinners" })
+    vim.notify(
+      "Heirline spinner requires `heirline.nvim` plugin.",
+      vim.log.levels.WARN,
+      { title = "CodeCompanion Spinners" }
+    )
     return
   end
 

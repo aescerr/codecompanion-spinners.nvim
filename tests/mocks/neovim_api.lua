@@ -15,7 +15,7 @@ M.api = {
     M._augroups[id] = {
       name = name,
       opts = opts or {},
-      autocmds = {}
+      autocmds = {},
     }
     return id
   end,
@@ -25,7 +25,7 @@ M.api = {
     M._next_autocmd_id = M._next_autocmd_id + 1
 
     -- Support both single event and array of events
-    local event_list = type(events) == "table" and events or {events}
+    local event_list = type(events) == "table" and events or { events }
 
     for _, event in ipairs(event_list) do
       if not M._autocmds[event] then
@@ -34,7 +34,7 @@ M.api = {
       table.insert(M._autocmds[event], {
         id = id,
         opts = opts,
-        callback = opts.callback
+        callback = opts.callback,
       })
     end
 
@@ -56,7 +56,7 @@ M.api = {
           if autocmd.callback then
             autocmd.callback({
               match = pattern or event,
-              event = event
+              event = event,
             })
           end
         end
@@ -73,11 +73,11 @@ M.api = {
   end,
 
   nvim_win_get_cursor = function(winid)
-    return {5, 10} -- Mock cursor position
+    return { 5, 10 } -- Mock cursor position
   end,
 
   nvim_win_get_position = function(winid)
-    return {100, 200} -- Mock window position
+    return { 100, 200 } -- Mock window position
   end,
 
   nvim_open_win = function(bufnr, enter, opts)
@@ -88,13 +88,13 @@ M.api = {
     -- Mock window close
   end,
 
-   nvim_create_buf = function(listed, scratch)
-     return 1000 + math.random(1000) -- Mock buffer ID
-   end,
+  nvim_create_buf = function(listed, scratch)
+    return 1000 + math.random(1000) -- Mock buffer ID
+  end,
 
-   nvim_buf_set_lines = function(bufnr, start, end_, strict, lines)
-     -- Mock buffer line setting
-   end,
+  nvim_buf_set_lines = function(bufnr, start, end_, strict, lines)
+    -- Mock buffer line setting
+  end,
 
   nvim_create_namespace = function(name)
     return 3000 -- Mock namespace ID
@@ -104,29 +104,29 @@ M.api = {
     -- Mock highlighting
   end,
 
-   nvim_buf_clear_namespace = function(bufnr, ns_id, line_start, line_end)
-     -- Mock namespace clearing
-   end,
+  nvim_buf_clear_namespace = function(bufnr, ns_id, line_start, line_end)
+    -- Mock namespace clearing
+  end,
 
-   nvim_buf_set_extmark = function(bufnr, ns_id, line, col, opts)
-     -- Mock setting extmark
-   end,
+  nvim_buf_set_extmark = function(bufnr, ns_id, line, col, opts)
+    -- Mock setting extmark
+  end,
 
-   nvim_win_is_valid = function(win)
-     return true -- Mock window is valid
-   end,
+  nvim_win_is_valid = function(win)
+    return true -- Mock window is valid
+  end,
 
-   nvim_buf_is_valid = function(buf)
-     return true -- Mock buffer is valid
-   end,
+  nvim_buf_is_valid = function(buf)
+    return true -- Mock buffer is valid
+  end,
 
-   nvim_win_set_config = function(win, config)
-     -- Mock setting window config
-   end,
+  nvim_win_set_config = function(win, config)
+    -- Mock setting window config
+  end,
 
-   nvim_set_option_value = function(name, value, opts)
-     -- Mock setting option value
-   end
+  nvim_set_option_value = function(name, value, opts)
+    -- Mock setting option value
+  end,
 }
 
 -- Mock vim.fn
@@ -168,7 +168,7 @@ M.fn = {
 
   isdirectory = function(dir)
     return true -- Mock directory exists
-  end
+  end,
 }
 
 -- Mock vim.o (options)
@@ -176,13 +176,21 @@ M.o = {
   lines = 24,
   columns = 80,
   cmdheight = 1,
-  laststatus = 2
+  laststatus = 2,
 }
 
 -- Mock vim.opt
 M.opt = {
-  fileencoding = { get = function() return "utf-8" end },
-  fileformat = { get = function() return "unix" end }
+  fileencoding = {
+    get = function()
+      return "utf-8"
+    end,
+  },
+  fileformat = {
+    get = function()
+      return "unix"
+    end,
+  },
 }
 
 -- Mock vim.loop (libuv)
@@ -195,9 +203,9 @@ M.loop = {
     return {
       start = function() end,
       stop = function() end,
-      close = function() end
+      close = function() end,
     }
-  end
+  end,
 }
 
 -- Mock vim.schedule
@@ -227,22 +235,22 @@ M.log = {
     INFO = "info",
     WARN = "warn",
     ERROR = "error",
-    DEBUG = "debug"
-  }
+    DEBUG = "debug",
+  },
 }
 
 -- Mock vim.highlight
 M.highlight = {
   priorities = {
-    user = 100
-  }
+    user = 100,
+  },
 }
 
 -- Mock vim.tbl_deep_extend
 M.tbl_deep_extend = function(behavior, ...)
   -- Simple mock implementation
   local result = {}
-  for i = 1, select('#', ...) do
+  for i = 1, select("#", ...) do
     local tbl = select(i, ...)
     if type(tbl) == "table" then
       for k, v in pairs(tbl) do

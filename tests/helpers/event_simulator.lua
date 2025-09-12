@@ -8,7 +8,7 @@ M.simulate_event = function(event_name, delay_ms)
   delay_ms = delay_ms or 0
   vim.defer_fn(function()
     vim.api.nvim_exec_autocmds("User", {
-      pattern = event_name
+      pattern = event_name,
     })
   end, delay_ms)
 end
@@ -59,7 +59,7 @@ end
 M.simulate_error_conditions = function()
   -- Simulate events that might cause errors
   M.simulate_event("CodeCompanionRequestFinished", 0) -- Finish without start
-  M.simulate_event("CodeCompanionToolFinished", 10)   -- Tool finish without start
+  M.simulate_event("CodeCompanionToolFinished", 10) -- Tool finish without start
 end
 
 -- Wait for all simulated events to complete
@@ -87,18 +87,12 @@ end
 -- Verify event sequence
 M.verify_sequence = function(expected_events, actual_events)
   if #expected_events ~= #actual_events then
-    return false, string.format(
-      "Event count mismatch: expected %d, got %d",
-      #expected_events, #actual_events
-    )
+    return false, string.format("Event count mismatch: expected %d, got %d", #expected_events, #actual_events)
   end
 
   for i, expected in ipairs(expected_events) do
     if expected ~= actual_events[i] then
-      return false, string.format(
-        "Event %d mismatch: expected '%s', got '%s'",
-        i, expected, actual_events[i]
-      )
+      return false, string.format("Event %d mismatch: expected '%s', got '%s'", i, expected, actual_events[i])
     end
   end
 

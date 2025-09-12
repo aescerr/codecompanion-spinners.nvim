@@ -1,7 +1,7 @@
 -- Performance tests for CodeCompanion Spinners
-local tracker = require("codecompanion._extensions.spinner.tracker")
 local config = require("codecompanion._extensions.spinner.config")
 local test_env = require("tests.helpers.test_env")
+local tracker = require("codecompanion._extensions.spinner.tracker")
 
 describe("Performance Tests", function()
   before_each(function()
@@ -38,7 +38,7 @@ describe("Performance Tests", function()
         "CodeCompanionDiffAttached",
         "CodeCompanionDiffAccepted",
         "CodeCompanionRequestFinished",
-        "CodeCompanionChatClosed"
+        "CodeCompanionChatClosed",
       }
 
       local start_time = vim.loop.hrtime()
@@ -61,7 +61,7 @@ describe("Performance Tests", function()
   describe("Configuration Performance", function()
     it("should handle config merging efficiently", function()
       local large_config = {
-        content = {}
+        content = {},
       }
 
       -- Create a large config with many entries
@@ -69,7 +69,7 @@ describe("Performance Tests", function()
         large_config.content["state_" .. i] = {
           icon = "icon" .. i,
           message = "Message " .. i,
-          spacing = " "
+          spacing = " ",
         }
       end
 
@@ -95,8 +95,8 @@ describe("Performance Tests", function()
           style = i % 2 == 0 and "snacks" or "cursor-relative",
           default_icon = "icon" .. i,
           content = {
-            thinking = { message = "Message " .. i }
-          }
+            thinking = { message = "Message " .. i },
+          },
         }
       end
 
@@ -152,10 +152,16 @@ describe("Performance Tests", function()
         local lualine_component = lualine.get_lualine_component()
         local heirline_component = heirline.get_heirline_component()
         -- Initialize heirline component
-        if heirline_component.init then heirline_component.init(heirline_component) end
+        if heirline_component.init then
+          heirline_component.init(heirline_component)
+        end
         -- Simulate calling the component functions
-        if lualine_component[1] then lualine_component[1]() end
-        if heirline_component.provider then heirline_component.provider(heirline_component) end
+        if lualine_component[1] then
+          lualine_component[1]()
+        end
+        if heirline_component.provider then
+          heirline_component.provider(heirline_component)
+        end
       end
 
       local end_time = vim.loop.hrtime()

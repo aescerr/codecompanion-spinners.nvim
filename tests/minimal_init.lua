@@ -6,5 +6,5 @@ test_env.setup()
 
 return {
   setup = test_env.setup,
-  teardown = test_env.teardown
+  teardown = test_env.teardown,
 }
