@@ -4,7 +4,7 @@ A companion extension for [`codecompanion.nvim`](https://github.com/olimorris/co
 
 ## 📹 Demo
 
-<video src="https://github.com/user-attachments/assets/f1db9995-c575-4db3-ac01-cad0da6abb7f" controls></video>
+<video src="https://github.com/user-attachments/assets/072eb1e2-a5c5-4471-9735-c60a3c69309c" controls></video>
 
 ## ✨ Features
 
@@ -161,7 +161,7 @@ A minimal, animated spinner that floats in a small window next to your cursor. I
 
 **Demo:**
 
-<video src="https://github.com/user-attachments/assets/b023c5d9-daae-4da1-a4f6-2020e984369a" controls></video>
+<video src="https://github.com/user-attachments/assets/fe24cc44-8865-4fd6-adf7-cc2181b525b3" controls></video>
 
 **Visuals:**
 - ⚡ **Active:** A smooth highlight animation across the spinner characters (e.g., `` with moving highlights).
@@ -204,7 +204,7 @@ This style leverages the excellent [fidget.nvim](https://github.com/j-hui/fidget
 
 **Demo:**
 
-<video src="https://github.com/user-attachments/assets/0f0ee5e5-d74b-4c5d-bea9-22d537decb52" controls></video>
+<video src="https://github.com/user-attachments/assets/eb1cd530-33e5-413d-a272-f11af4d9b39c" controls></video>
 
 **Visuals:**
 - 📋 A "CodeCompanion" task will appear in your fidget window, showing the current status (e.g., "Thinking...").
@@ -230,7 +230,7 @@ This style uses [snacks.nvim](https://github.com/folke/snacks.nvim) (or the buil
 
 **Demo:**
 
-<video src="https://github.com/user-attachments/assets/f1db9995-c575-4db3-ac01-cad0da6abb7f" controls></video>
+<video src="https://github.com/user-attachments/assets/072eb1e2-a5c5-4471-9735-c60a3c69309c" controls></video>
 
 **Visuals:**
 - 🔔 A notification popup appears with an icon and status message in the format `<icon> <message>` (e.g., "⚛ Thinking...").
@@ -255,7 +255,7 @@ This style integrates with [lualine.nvim](https://github.com/nvim-lualine/lualin
 
 **Demo:**
 
-<video src="https://github.com/user-attachments/assets/b93c146d-cd1e-4bfe-8c4a-85e6a2289dc5" controls></video>
+<video src="https://github.com/user-attachments/assets/318fa081-b19c-476c-9906-d4f7d3547e93" controls></video>
 
 **Visuals:**
 - 📊 Shows animated spinner with icons and text messages in your lualine status bar
@@ -329,7 +329,7 @@ This style creates a highly configurable floating window using Neovim's native `
 
 **Demo:**
 
-<video src="https://github.com/user-attachments/assets/659f9f88-e385-487f-b0fe-49f97fb1b997" controls></video>
+<video src="https://github.com/user-attachments/assets/bef41306-cda3-4e58-aa9b-98a0210f9024" controls></video>
 
 **Visuals:**
 - 🏗️ A floating window appears with your configured title, size, position, and border style.
