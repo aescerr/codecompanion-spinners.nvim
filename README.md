@@ -107,10 +107,16 @@ Here is the complete default configuration. You only need to specify the values 
   fidget = {
     -- No specific options for now
   },
-  snacks = {
-    -- No specific options for now
-  },
-  native = {
+   snacks = {
+     -- No specific options for now
+   },
+   lualine = {
+     -- No specific options for now
+   },
+   heirline = {
+     -- No specific options for now
+   },
+   native = {
     done_timer = 500,
     window = {
       relative = "editor",
@@ -142,6 +148,8 @@ You can choose one of the following styles by setting the `style` option:
 - 🖱️ **`cursor-relative`** (Default) - Floating window spinner near cursor
 - 📊 **`fidget`** - Progress notifications via fidget.nvim
 - 🍿 **`snacks`** - Rich notifications via snacks.nvim or vim.notify
+- 📏 **`lualine`** - Statusline component for lualine.nvim
+- 🎨 **`heirline`** - Statusline component for heirline.nvim
 - 🪟 **`native`** - Highly configurable floating window
 - 🚫 **`none`** - Disable all spinners
 
@@ -237,10 +245,81 @@ opts = {
   style = "snacks",
 }
 ```
+---
+
+### 📏 `lualine`
+
+This style integrates with [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) to show spinner status directly in your statusline. It provides seamless integration with your existing lualine setup.
+
+**📋 Prerequisites:** You must have `nvim-lualine/lualine.nvim` installed and configured.
+
+**Demo:**
+
+<video src="https://github.com/user-attachments/assets/b93c146d-cd1e-4bfe-8c4a-85e6a2289dc5" controls></video>
+
+**Visuals:**
+- 📊 Shows animated spinner with icons and text messages in your lualine status bar
+- 🔄 Updates smoothly with lualine's refresh cycle
+- 📝 Displays messages like "🤖 Thinking...", "📨 Receiving...", "✅ Done!"
+- 🎯 Only shows when there's active AI activity
+
+**Specific Options:**
+This spinner currently has no specific options.
+
+```lua
+opts = {
+  style = "lualine",
+}
+
+-- In your lualine config:
+require('lualine').setup({
+  sections = {
+    lualine_c = {
+      require('codecompanion._extensions.spinner.styles.lualine').get_lualine_component(),
+    },
+  }
+})
+```
 
 ---
 
+### 🎨 `heirline`
 
+This style integrates with [heirline.nvim](https://github.com/rebelot/heirline.nvim) to show spinner status in your statusline. It follows heirline's component-based architecture for maximum flexibility.
+
+**📋 Prerequisites:** You must have `rebelot/heirline.nvim` installed and configured.
+
+**Demo:**
+*Note: I don't personally use heirline, so I haven't created a demo video for this spinner style. If you encounter any difficulties with the heirline integration or would like to contribute a demo video, please let me know - I'm happy to help troubleshoot and improve the implementation!*
+
+**Visuals:**
+- 🎨 Shows animated spinner with icons and text messages in your heirline status bar
+- 🔄 Updates through heirline's built-in event system
+- 📝 Displays messages like "🤖 Thinking...", "📨 Receiving...", "✅ Done!"
+- 🎯 Includes optional highlighting for better visibility
+
+**Specific Options:**
+This spinner currently has no specific options.
+
+```lua
+opts = {
+  style = "heirline",
+}
+
+-- In your heirline setup:
+local heirline = require('heirline')
+local CodeCompanionSpinner = require('codecompanion._extensions.spinner.styles.heirline')
+
+heirline.setup({
+  statusline = {
+    -- Your other components...
+    CodeCompanionSpinner.get_heirline_component(),
+    -- More components...
+  }
+})
+```
+
+---
 
 ### 🪟 `native`
 

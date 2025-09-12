@@ -326,12 +326,13 @@ codecompanion-spinners.nvim/
 
 ### Development Workflow
 
-#### ⚠️ Critical Safety Rules
-- **NEVER commit and push changes without explicit user approval**
-- Always ask for permission before running `git commit` or `git push`
-- This prevents accidental commits that could affect the repository
-- Respect user control over when and what gets published
-- **NEVER commit changes automatically** - Always wait for user confirmation before committing, even for documentation updates
+#### 🚨 CRITICAL SAFETY RULES (MUST FOLLOW)
+- **🚫 NEVER commit and push changes without explicit user approval**
+- **❓ ALWAYS ask for permission before running `git commit` or `git push`**
+- **🛡️ This prevents accidental commits that could affect the repository**
+- **👤 Respect user control over when and what gets published**
+- **🚫 NEVER commit changes automatically** - Always wait for user confirmation before committing, even for documentation updates
+- **⚡ REMINDER: If you break these rules, immediately apologize and revert the commit**
 
 - **CONTEXT.md Updates:** Always update CONTEXT.md with significant changes, new features, bug fixes, and design decisions for future reference
 - **Documentation Priority:** Update both README.md and CONTEXT.md when making user-facing changes
