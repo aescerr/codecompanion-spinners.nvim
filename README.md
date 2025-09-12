@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1536" height="672" alt="CodeCompanion Spinners Banner" src="https://github.com/user-attachments/assets/39600321-3a86-4a5f-98ef-be3e10994e95" />
+<img width="1454" height="650" alt="CodeCompanion Spinners Banner" src="https://github.com/user-attachments/assets/568317ce-2124-475d-9caa-91f8fc5b9f09" />
 
 # ⏳ codecompanion-spinners.nvim
 
