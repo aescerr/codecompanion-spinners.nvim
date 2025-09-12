@@ -143,20 +143,18 @@ require('codecompanion').setup({
 
 ### 4. lualine
 - **Type:** Statusline component
-- **Features:** Integrated status display that only shows when CodeCompanion chat panel is open, automatic updates
+- **Features:** Animated spinner in lualine status bar during AI requests
 - **Dependencies:** `nvim-lualine/lualine.nvim`
-- **Configuration:** Uses global `default_icon` for active states, shows nothing when chat is closed
+- **Configuration:** Simple spinner animation with no additional configuration needed
 - **Usage:** Use `get_lualine_component()` for easy integration
-- **Note:** Currently marked as disabled in implementation - may require additional development
 - **Behavior:**
-  - Only displays content when the CodeCompanion chat panel is open and there's active AI activity
-  - Shows nothing (empty string) when chat is closed, hidden, or idle
-  - Tracks chat state using `CodeCompanionChatOpened`, `CodeCompanionChatClosed`, and `CodeCompanionChatHidden` events
-  - Displays in the statusline regardless of which buffer you're currently viewing
+  - Shows animated spinner when CodeCompanion is processing requests
+  - Automatically hides when idle
+  - Integrates seamlessly with lualine refresh cycle
+  - No manual redraw calls needed
 
 **API Functions:**
-- `get_status()`: Returns the current status text string
-- `get_lualine_component()`: Returns a complete lualine component configuration
+- `get_lualine_component()`: Returns the lualine component for integration
 
 **Example Usage:**
 ```lua
@@ -367,10 +365,10 @@ docs: Update README with native spinner configuration examples
 
 ## Known Issues & TODOs
 
-1. **Lualine Spinner Status:** Lualine spinner is currently marked as disabled in implementation and may require additional development
-2. **Testing:** No automated tests currently exist
-3. **Performance:** No performance optimizations for high-frequency updates
-4. **Documentation:** Some advanced configuration examples could be expanded
+1. **Testing:** No automated tests currently exist
+2. **Performance:** No performance optimizations for high-frequency updates
+3. **Documentation:** Some advanced configuration examples could be expanded
+4. **Enhanced Lualine Features:** Could add more customization options for lualine spinner
 
 ## Future Enhancements
 
