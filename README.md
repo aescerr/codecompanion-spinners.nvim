@@ -1,6 +1,24 @@
-# CodeCompanion Spinner
+<div align="center">
 
-A companion extension for [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) that provides beautiful, configurable status spinners and notifications to give you real-time feedback on the AI's activity.
+<img width="1536" height="672" alt="CodeCompanion Spinners Banner" src="https://github.com/user-attachments/assets/39600321-3a86-4a5f-98ef-be3e10994e95" />
+
+# ⏳ codecompanion-spinners.nvim
+
+<p align="center">
+<a href="https://github.com/lalitmee/codecompanion-spinners.nvim/stargazers"><img src="https://img.shields.io/github/stars/lalitmee/codecompanion-spinners.nvim?color=c678dd&logoColor=e06c75&style=for-the-badge"></a>
+<a href="https://github.com/lalitmee/codecompanion-spinners.nvim/blob/master/LICENSE"><img src="https://img.shields.io/github/license/lalitmee/codecompanion-spinners.nvim?style=for-the-badge"></a>
+<a href="https://github.com/neovim/neovim"><img src="https://img.shields.io/badge/Neovim-0.10+-blue.svg?style=for-the-badge&logo=neovim"></a>
+</p>
+
+<p align="center"><em>Beautiful, configurable status spinners for codeCompanion.nvim</em></p>
+
+---
+
+*A companion extension for [`codecompanion.nvim`](https://github.com/olimorris/codecompanion.nvim) that provides beautiful, configurable status spinners and notifications to give you real-time feedback on the AI's activity.*
+
+---
+
+</div>
 
 ## 📹 Demo
 
