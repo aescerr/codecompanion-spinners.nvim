@@ -88,20 +88,45 @@ end
 --- @return table The heirline component configuration
 function M.get_heirline_component()
   return {
-    provider = function()
-      return M.status()
+    static = {
+      current_text = "",
+      spinner_index = 1,
+      last_update_time = 0,
+    },
+    init = function(self)
+      self.current_text = M.current_text -- Sync with module state
     end,
-    condition = function()
-      return M.current_text ~= ""
+    update = {
+      "User",
+      pattern = "CodeCompanion*",
+      callback = function(self, args)
+        update_display(args.match)
+        self.current_text = M.current_text -- Sync component state
+        vim.cmd("redrawstatus")
+      end,
+    },
+    condition = function(self)
+      return self.current_text ~= ""
+    end,
+    provider = function(self)
+      if self.current_text ~= "" then
+        -- Control animation speed (update every 100ms)
+        local current_time = vim.loop.hrtime()
+        if current_time - self.last_update_time > 100000000 then -- 100ms in nanoseconds
+          self.spinner_index = (self.spinner_index % spinner_symbols_len) + 1
+          self.last_update_time = current_time
+        end
+        return spinner_symbols[self.spinner_index] .. " " .. self.current_text
+      else
+        return ""
+      end
     end,
     -- Optional: Add highlighting
-    hl = function()
-      return {
-        fg = "green",
-        bg = "NONE",
-        bold = true,
-      }
-    end,
+    hl = {
+      fg = "green",
+      bg = "NONE",
+      bold = true,
+    },
   }
 end
 
