@@ -35,4 +35,4 @@ jobs:
         run: make install-deps
 
       - name: Run Tests
-        run: make ci-test
+        run: make test

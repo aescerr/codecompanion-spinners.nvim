@@ -1,4 +1,4 @@
----@class CodeCompanion.Extension
+---@class CodeCompanion.Extension @type CodeCompanion.Extension
 ---@field setup fun(opts: table) Function called when extension is loaded
 ---@field exports? table Functions exposed via codecompanion.extensions.your_extension
 local Extension = {}

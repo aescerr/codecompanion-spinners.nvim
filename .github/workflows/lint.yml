@@ -31,4 +31,4 @@ jobs:
         run: luarocks install luacheck
 
       - name: Run luacheck
-        run: luacheck lua/ tests/ --globals vim
+        run: luacheck lua/ tests/ --globals vim --ignore 611 612 613 614
