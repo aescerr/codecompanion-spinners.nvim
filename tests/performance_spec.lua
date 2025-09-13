@@ -1,6 +1,5 @@
 -- Performance tests for CodeCompanion Spinners
 local config = require("codecompanion._extensions.spinner.config")
-local test_env = require("tests.helpers.test_env")
 local tracker = require("codecompanion._extensions.spinner.tracker")
 
 describe("Performance Tests", function()
@@ -15,7 +14,7 @@ describe("Performance Tests", function()
       local start_time = vim.loop.hrtime()
 
       -- Simulate 100 rapid events
-      for i = 1, 100 do
+      for _i = 1, 100 do
         tracker.handle_event("CodeCompanionRequestStarted")
         tracker.handle_event("CodeCompanionRequestFinished")
       end
@@ -44,7 +43,7 @@ describe("Performance Tests", function()
       local start_time = vim.loop.hrtime()
 
       -- Run complex sequence 50 times
-      for i = 1, 50 do
+      for _i = 1, 50 do
         for _, event in ipairs(events) do
           tracker.handle_event(event)
         end
@@ -76,7 +75,7 @@ describe("Performance Tests", function()
       local start_time = vim.loop.hrtime()
 
       -- Merge large config 10 times
-      for i = 1, 10 do
+      for _i = 1, 10 do
         config.merge(large_config)
       end
 
@@ -124,7 +123,7 @@ describe("Performance Tests", function()
       local start_time = vim.loop.hrtime()
 
       -- Render 1000 times with different spinners
-      for i = 1, 1000 do
+      for _i = 1, 1000 do
         cursor_relative.render(2, "CodeCompanionRequestStarted")
         snacks.render(3, "CodeCompanionRequestStreaming")
       end
@@ -148,7 +147,7 @@ describe("Performance Tests", function()
       local start_time = vim.loop.hrtime()
 
       -- Render components 500 times each
-      for i = 1, 500 do
+      for _i = 1, 500 do
         local lualine_component = lualine.get_lualine_component()
         local heirline_component = heirline.get_heirline_component()
         -- Initialize heirline component
@@ -176,7 +175,7 @@ describe("Performance Tests", function()
       local initial_memory = collectgarbage("count")
 
       -- Perform many operations
-      for i = 1, 1000 do
+      for _i = 1, 1000 do
         tracker.handle_event("CodeCompanionRequestStarted")
         tracker.handle_event("CodeCompanionRequestFinished")
         config.get()
@@ -197,7 +196,7 @@ describe("Performance Tests", function()
       local start_time = vim.loop.hrtime()
 
       -- Simulate concurrent-like operations
-      for i = 1, 100 do
+      for _i = 1, 100 do
         -- Mix different types of operations
         tracker.handle_event("CodeCompanionRequestStarted")
         config.merge({ style = "snacks" })
@@ -217,7 +216,7 @@ describe("Performance Tests", function()
       local start_time = vim.loop.hrtime()
 
       -- Create a very large number of state changes
-      for i = 1, 10000 do
+      for _i = 1, 10000 do
         tracker.handle_event("CodeCompanionRequestStarted")
         tracker.handle_event("CodeCompanionRequestFinished")
       end

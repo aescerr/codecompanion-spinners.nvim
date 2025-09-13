@@ -21,8 +21,8 @@ local function show_one_off_notification(content)
     return
   end
 
-  local config = require("codecompanion._extensions.spinner.config")
-  local default_icon = config.get().default_icon
+  local current_config = require("codecompanion._extensions.spinner.config")
+  local default_icon = current_config.get().default_icon
   local display_icon = content.message:find("Thinking") and default_icon or content.icon
 
   local handle = fidget.progress.handle.create({

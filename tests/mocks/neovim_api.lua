@@ -68,105 +68,102 @@ M.api = {
     return 1 -- Mock buffer ID
   end,
 
-  nvim_buf_get_name = function(bufnr)
+  nvim_buf_get_name = function(_bufnr)
     return "/mock/path/file.lua" -- Mock file path
   end,
 
-  nvim_win_get_cursor = function(winid)
+  nvim_win_get_cursor = function(_winid)
     return { 5, 10 } -- Mock cursor position
   end,
 
-  nvim_win_get_position = function(winid)
+  nvim_win_get_position = function(_winid)
     return { 100, 200 } -- Mock window position
   end,
 
-  nvim_open_win = function(bufnr, enter, opts)
+  nvim_open_win = function(_bufnr, _enter, _opts)
     return 999 -- Mock window ID
   end,
 
-  nvim_win_close = function(winid, force)
+  nvim_win_close = function(_winid, _force)
     -- Mock window close
   end,
 
-  nvim_create_buf = function(listed, scratch)
+  nvim_create_buf = function(_listed, _scratch)
     return 1000 + math.random(1000) -- Mock buffer ID
   end,
 
-  nvim_buf_set_lines = function(bufnr, start, end_, strict, lines)
+  nvim_buf_set_lines = function(_bufnr, _start, _end_, _strict, _lines)
     -- Mock buffer line setting
   end,
 
-  nvim_create_namespace = function(name)
+  nvim_create_namespace = function(_name)
     return 3000 -- Mock namespace ID
   end,
 
-  nvim_buf_add_highlight = function(bufnr, ns_id, hl_group, line, col_start, col_end)
+  nvim_buf_add_highlight = function(_bufnr, _ns_id, _hl_group, _line, _col_start, _col_end)
     -- Mock highlighting
   end,
 
-  nvim_buf_clear_namespace = function(bufnr, ns_id, line_start, line_end)
+  nvim_buf_clear_namespace = function(_bufnr, _ns_id, _line_start, _line_end)
     -- Mock namespace clearing
   end,
 
-  nvim_buf_set_extmark = function(bufnr, ns_id, line, col, opts)
+  nvim_buf_set_extmark = function(_bufnr, _ns_id, _line, _col, _opts)
     -- Mock setting extmark
   end,
 
-  nvim_win_is_valid = function(win)
+  nvim_win_is_valid = function(_win)
     return true -- Mock window is valid
   end,
 
-  nvim_buf_is_valid = function(buf)
+  nvim_buf_is_valid = function(_buf)
     return true -- Mock buffer is valid
   end,
 
-  nvim_win_set_config = function(win, config)
+  nvim_win_set_config = function(_win, _config)
     -- Mock setting window config
   end,
 
-  nvim_set_option_value = function(name, value, opts)
+  nvim_set_option_value = function(_name, _value, _opts)
     -- Mock setting option value
   end,
 }
 
 -- Mock vim.fn
 M.fn = {
-  search = function(pattern, flags)
+  search = function(_pattern, _flags)
     return 0 -- Mock search result (no match)
   end,
 
-  searchcount = function(opts)
+  searchcount = function(_opts)
     return { total = 0, current = 0 } -- Mock search count
   end,
 
-  fnamemodify = function(path, mods)
-    if mods == ":t" then
-      return "mock_file.lua"
-    end
-    return path
+  fnamemodify = function(_path, _mods)
+    return "mock_file.lua"
   end,
 
-  line = function(expr)
+  line = function(_expr)
     return 10 -- Mock line number
   end,
 
-  col = function(expr)
+  col = function(_expr)
     return 5 -- Mock column number
   end,
 
-  getline = function(lnum)
+  getline = function(_lnum)
     return "mock line content" -- Mock line content
   end,
 
-  stdpath = function(what)
+  stdpath = function(_what)
     return "/mock/path" -- Mock standard path
   end,
 
-  filereadable = function(file)
+  filereadable = function(_file)
     return true -- Mock file exists
   end,
 
-  isdirectory = function(dir)
+  isdirectory = function(_dir)
     return true -- Mock directory exists
   end,
 }
@@ -214,18 +211,18 @@ M.schedule = function(fn)
 end
 
 -- Mock vim.defer_fn
-M.defer_fn = function(fn, delay)
+M.defer_fn = function(fn, _delay)
   fn() -- Execute immediately for testing (ignore delay)
 end
 
 -- Mock vim.cmd
-M.cmd = function(cmd)
+M.cmd = function(_cmd)
   -- Mock vim command execution
-  print("vim.cmd: " .. cmd)
+  print("vim.cmd: mock command")
 end
 
 -- Mock vim.notify
-M.notify = function(msg, level, opts)
+M.notify = function(msg, level, _opts)
   print(string.format("[NOTIFY %s] %s", level or "INFO", msg))
 end
 
@@ -247,11 +244,11 @@ M.highlight = {
 }
 
 -- Mock vim.tbl_deep_extend
-M.tbl_deep_extend = function(behavior, ...)
+M.tbl_deep_extend = function(_behavior, ...)
   -- Simple mock implementation
   local result = {}
-  for i = 1, select("#", ...) do
-    local tbl = select(i, ...)
+  for _i = 1, select("#", ...) do
+    local tbl = select(_i, ...)
     if type(tbl) == "table" then
       for k, v in pairs(tbl) do
         result[k] = v

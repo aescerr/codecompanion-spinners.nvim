@@ -6,11 +6,7 @@
 -- Setup package path
 package.path = package.path .. ";./lua/?.lua;./tests/?.lua"
 
--- Load test environment
-local test_env = require("tests.minimal_init")
-
 -- Load test framework
-local busted = require("busted")
 local runner = require("busted.runner")
 
 -- Run the tests

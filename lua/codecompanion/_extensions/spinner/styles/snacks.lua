@@ -14,8 +14,8 @@ local state_map = tracker.state_map
 local NOTIFICATION_ID = "codecompanion_spinner"
 
 local function show_notification(content, is_done, is_spinning)
-  local config = require("codecompanion._extensions.spinner.config")
-  local cfg = config.get()
+  local current_config = require("codecompanion._extensions.spinner.config")
+  local cfg = current_config.get()
   if not cfg then
     return
   end

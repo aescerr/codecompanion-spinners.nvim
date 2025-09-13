@@ -76,7 +76,6 @@ local function handle_event(args)
     return
   end
 
-  local was_active = (state.request_count > 0) or (state.tools_count > 0) or (state.diff_count > 0)
   local previous_state = get_current_state()
 
   -- Update state counters based on the event

@@ -68,7 +68,7 @@ M.error_conditions = {
 
 -- Rapid events (stress test)
 M.rapid_events = {}
-for i = 1, 50 do
+for _i = 1, 50 do
   table.insert(M.rapid_events, "CodeCompanionRequestStarted")
   table.insert(M.rapid_events, "CodeCompanionRequestStreaming")
   table.insert(M.rapid_events, "CodeCompanionRequestFinished")
@@ -184,7 +184,7 @@ M.performance = {
 }
 
 -- Fill performance sequences
-for i = 1, 1000 do
+for _i = 1, 1000 do
   table.insert(M.performance.high_volume, "CodeCompanionRequestStarted")
   table.insert(M.performance.high_volume, "CodeCompanionRequestStreaming")
   table.insert(M.performance.high_volume, "CodeCompanionRequestFinished")
@@ -204,7 +204,7 @@ local complex_events = {
   "CodeCompanionChatClosed",
 }
 
-for i = 1, 100 do
+for _i = 1, 100 do
   for _, event in ipairs(complex_events) do
     table.insert(M.performance.complex_state_changes, event)
   end

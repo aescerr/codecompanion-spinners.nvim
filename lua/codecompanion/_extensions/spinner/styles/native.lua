@@ -10,7 +10,6 @@ local tracker = require("codecompanion._extensions.spinner.tracker")
 
 -- State mapping for content
 local state_map = tracker.state_map
-local tracker = require("codecompanion._extensions.spinner.tracker")
 
 -- Holds the state of the floating window
 local ui = {
@@ -27,14 +26,11 @@ local animations = {
   interval = 80,
 }
 
-local function get_spinner_text(content)
-  local frame_char = animations.default[ui.frame]
-  return string.format(" %s %s ", frame_char, content.message)
-end
+
 
 local function get_title_text(content, is_spinning)
-  local config = require("codecompanion._extensions.spinner.config")
-  local default_icon = config.get().default_icon
+  local current_config = require("codecompanion._extensions.spinner.config")
+  local default_icon = current_config.get().default_icon
 
   if is_spinning then
     local frame_char = animations.default[ui.frame]
@@ -44,9 +40,9 @@ local function get_title_text(content, is_spinning)
   end
 end
 
-local function get_window_icon(content, is_spinning)
-  local config = require("codecompanion._extensions.spinner.config")
-  local default_icon = config.get().default_icon
+local function get_window_icon(content, _is_spinning)
+  local current_config = require("codecompanion._extensions.spinner.config")
+  local default_icon = current_config.get().default_icon
 
   -- Use default icon for thinking state, otherwise use state-specific icon
   if content.message:find("Thinking") then

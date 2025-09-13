@@ -4,15 +4,7 @@ local M = {}
 local config = require("codecompanion._extensions.spinner.config")
 local tracker = require("codecompanion._extensions.spinner.tracker")
 
--- State mapping for content
-local state_map = {
-  [tracker.State.IDLE] = "idle",
-  [tracker.State.THINKING] = "thinking",
-  [tracker.State.RECEIVING] = "receiving",
-  [tracker.State.TOOLS_RUNNING] = "tools_running",
-  [tracker.State.TOOLS_PROCESSING] = "tools_processing",
-  [tracker.State.DIFF_AWAITING] = "diff_awaiting",
-}
+
 local ns_id
 
 local spinner_state = {
@@ -130,8 +122,8 @@ end
 
 --- The main render function called by the plugin's core.
 --- @param new_state number The new state from the tracker.
---- @param event string The raw event that triggered the state change.
-function M.render(new_state, event)
+--- @param _event string The raw event that triggered the state change.
+function M.render(new_state, _event)
   if new_state ~= tracker.State.IDLE and not spinner_state.timer then
     M.start_spinner()
   elseif new_state == tracker.State.IDLE and spinner_state.timer then

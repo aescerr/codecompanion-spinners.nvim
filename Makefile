@@ -25,21 +25,15 @@ test:
 
 test-unit:
 	@echo "🧪 Running unit tests..."
-	@eval $$(luarocks path) && LUA_PATH="$$LUA_PATH;./lua/?.lua;./tests/?.lua" lua -e "package.path = package.path .. ';./lua/?.lua;./tests/?.lua'" \
-		-l tests.minimal_init \
-		-e "require('busted.runner')({ pattern = 'tests/unit/*_spec.lua', verbose = true, colors = true })"
+	@eval $$(luarocks path) && busted ./tests/unit --pattern=_spec.lua$$ --helper=./tests/minimal_init.lua --verbose
 
 test-integration:
 	@echo "🧪 Running integration tests..."
-	@eval $$(luarocks path) && LUA_PATH="$$LUA_PATH;./lua/?.lua;./tests/?.lua" lua -e "package.path = package.path .. ';./lua/?.lua;./tests/?.lua'" \
-		-l tests.minimal_init \
-		-e "require('busted.runner')({ pattern = 'tests/integration/*_spec.lua', verbose = true, colors = true })"
+	@eval $$(luarocks path) && busted ./tests/integration --pattern=_spec.lua$$ --helper=./tests/minimal_init.lua --verbose
 
 test-coverage:
 	@echo "🧪 Running tests with coverage..."
-	@eval $$(luarocks path) && LUA_PATH="$$LUA_PATH;./lua/?.lua;./tests/?.lua" lua -e "package.path = package.path .. ';./lua/?.lua;./tests/?.lua'" \
-		-l tests.minimal_init \
-		-e "require('busted.runner')({ pattern = 'tests/**/*_spec.lua', verbose = true, colors = true, coverage = true })"
+	@eval $$(luarocks path) && busted ./tests --pattern=_spec.lua$$ --helper=./tests/minimal_init.lua --verbose --coverage
 	@echo "📊 Coverage report generated in luacov.report.out"
 
 # Clean target
@@ -62,9 +56,7 @@ install-deps:
 # CI test target
 ci-test:
 	@echo "🚀 Running CI tests..."
-	@eval $$(luarocks path) && LUA_PATH="$$LUA_PATH;./lua/?.lua;./tests/?.lua" lua -e "package.path = package.path .. ';./lua/?.lua;./tests/?.lua'" \
-		-l tests.minimal_init \
-		-e "require('busted.runner')({ pattern = 'tests/**/*_spec.lua', verbose = false, coverage = true })"
+	@eval $$(luarocks path) && busted ./tests --pattern=_spec.lua$$ --helper=./tests/minimal_init.lua --coverage
 
 # Development helpers
 test-watch:

@@ -15,5 +15,6 @@ files["tests/"] = {
     "assert",
     "spy",
     "stub"
-  }
+  },
+  ignore = { "211", "212", "213", "214" } -- Ignore unused loop variables
 }

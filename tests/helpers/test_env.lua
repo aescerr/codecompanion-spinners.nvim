@@ -112,7 +112,7 @@ M.measure_performance = function(fn, iterations)
   iterations = iterations or 100
   local start_time = vim.loop.hrtime()
 
-  for i = 1, iterations do
+  for _i = 1, iterations do
     fn()
   end
 

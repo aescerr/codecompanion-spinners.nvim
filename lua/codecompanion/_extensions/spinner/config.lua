@@ -144,7 +144,8 @@ end
 
 --- A helper function to get the content for a specific state.
 --- @param state string The name of the state (e.g., "thinking").
---- @return table|nil The content table for that state (e.g., { icon = "...", message = "..." }), or nil if state doesn't exist.
+--- @return table|nil The content table for that state (e.g., { icon = "...", message = "..." }),
+---   or nil if state doesn't exist.
 function M.get_content_for_state(state)
   return M.options.content[state]
 end

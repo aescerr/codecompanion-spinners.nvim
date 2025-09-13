@@ -222,7 +222,7 @@ describe("Extension Integration", function()
 
   describe("Memory Management", function()
     it("should not leak memory on multiple setups", function()
-      for i = 1, 10 do
+      for _i = 1, 10 do
         assert.has_no.errors(function()
           extension.setup({ style = "snacks" })
         end)
