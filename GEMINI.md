@@ -322,6 +322,7 @@ codecompanion-spinners.nvim/
 - Proper cleanup on completion/reset events
 
 ### Extensibility
+- **Regression Testing:** After any modification to Lua source code (`lua/**/*.lua`), the full test suite (`make test`) must be run to ensure no existing functionality is broken.
 - Easy to add new spinner styles by implementing the spinner interface
 - Configuration system supports custom states and content
 - Modular design allows for independent spinner development

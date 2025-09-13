@@ -1,6 +1,3 @@
----@type CodeCompanion.Extension
----@field setup fun(opts: table) Function called when extension is loaded
----@field exports? table Functions exposed via codecompanion.extensions.your_extension
 local Extension = {}
 
 ---Setup the extension
@@ -47,4 +44,8 @@ function Extension.setup(opts)
   end)
 end
 
+--- The main extension entry point.
+-- @treturn CodeCompanion.Extension The extension table.
+-- @field setup fun(opts: table) Function called when extension is loaded.
+-- @field exports? table Functions exposed via codecompanion.extensions.your_extension.
 return Extension
