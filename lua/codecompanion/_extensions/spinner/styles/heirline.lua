@@ -1,5 +1,6 @@
 -- A heirline component that shows CodeCompanion status with text and icons.
 -- Similar to other spinners but integrated into heirline.
+--- @module codecompanion._extensions.spinner.styles.heirline
 local M = {}
 
 M.current_text = ""

@@ -1,3 +1,4 @@
+--- @module codecompanion._extensions.spinner.init
 local Extension = {}
 
 ---Setup the extension

@@ -1,5 +1,6 @@
 -- A lualine component that shows CodeCompanion status with text and icons.
 -- Similar to other spinners but integrated into lualine.
+--- @module codecompanion._extensions.spinner.styles.lualine
 local M = {}
 
 M.current_text = ""

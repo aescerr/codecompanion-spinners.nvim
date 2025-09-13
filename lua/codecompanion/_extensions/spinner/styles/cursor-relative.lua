@@ -1,3 +1,4 @@
+--- @module codecompanion._extensions.spinner.styles.cursor-relative
 local M = {}
 
 local config = require("codecompanion._extensions.spinner.config")
