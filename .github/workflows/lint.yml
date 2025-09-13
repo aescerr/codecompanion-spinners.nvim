@@ -33,4 +33,4 @@ jobs:
       - name: Run luacheck
         env:
           LUA_PATH: "./lua/?.lua;./tests/?.lua"
-        run: luacheck lua/ tests/ --globals vim --ignore 611 612 613 614
+        run: luacheck lua/ tests/ --globals vim describe it before_each after_each setup teardown context --ignore 611 612 613 614
