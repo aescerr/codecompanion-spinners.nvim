@@ -8,6 +8,8 @@
 <a href="https://github.com/lalitmee/codecompanion-spinners.nvim/stargazers"><img src="https://img.shields.io/github/stars/lalitmee/codecompanion-spinners.nvim?color=c678dd&logoColor=e06c75&style=for-the-badge"></a>
 <a href="https://github.com/lalitmee/codecompanion-spinners.nvim/blob/master/LICENSE"><img src="https://img.shields.io/github/license/lalitmee/codecompanion-spinners.nvim?style=for-the-badge"></a>
 <a href="https://github.com/neovim/neovim"><img src="https://img.shields.io/badge/Neovim-0.10+-blue.svg?style=for-the-badge&logo=neovim"></a>
+<a href="https://github.com/lalitmee/codecompanion-spinners.nvim/actions/workflows/test.yml"><img src="https://github.com/lalitmee/codecompanion-spinners.nvim/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
+<a href="https://github.com/lalitmee/codecompanion-spinners.nvim/actions/workflows/lint.yml"><img src="https://github.com/lalitmee/codecompanion-spinners.nvim/actions/workflows/lint.yml/badge.svg" alt="Lint"></a>
 </p>
 
 <p align="center"><em>Beautiful, configurable status spinners for codeCompanion.nvim</em></p>
