@@ -9,8 +9,8 @@ jobs:
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
-      - uses: release-drafter/release-drafter@v6
-        with:
-          config-name: .github/config/release-drafter.yml
+       - uses: release-drafter/release-drafter@v6
+         with:
+           config-name: config/release-drafter.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
