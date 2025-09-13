@@ -1,36 +1,42 @@
-name: Generate Documentation
+name: Generate Vim Documentation
 
 on:
   push:
-    branches:
-      - master
+    branches: [ "master" ]
+    paths:
+      - 'lua/**'
+      - 'README.md'
+      - 'doc/**'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - 'lua/**'
+      - 'README.md'
+      - 'doc/**'
 
 jobs:
-  docs:
+  vim-docs:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Grant write permission for the auto-commit action
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Lua
-        uses: leafo/gh-actions-lua@v10
-        with:
-          luaVersion: "5.1"
+      - name: Check vim documentation
+        run: |
+          echo "📖 Checking vim documentation..."
+          if [ -f "doc/codecompanion-spinner.txt" ]; then
+            echo "✅ Vim help file exists: doc/codecompanion-spinner.txt"
+            head -10 doc/codecompanion-spinner.txt
+          else
+            echo "❌ Vim help file not found"
+            exit 1
+          fi
 
-      - name: Set up LuaRocks
-        uses: leafo/gh-actions-luarocks@v4
-
-      - name: Install ldoc
-        run: luarocks install ldoc
-
-      - name: Generate Docs
-        run: make docs
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "docs(bot): auto-generate api documentation"
-          branch: master
-          file_pattern: docs/api/*
+      - name: Validate documentation structure
+        run: |
+          echo "🔍 Validating documentation structure..."
+          # Check if the vim help file has proper structure
+          if grep -q "*codecompanion-spinner*" doc/codecompanion-spinner.txt; then
+            echo "✅ Vim help file has proper tag structure"
+          else
+            echo "⚠️  Vim help file may be missing proper tags"
+          fi

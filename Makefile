@@ -1,6 +1,6 @@
 # Makefile for CodeCompanion Spinners Testing
 
-.PHONY: test test-unit test-integration test-coverage clean help install-deps ci-test
+.PHONY: test test-unit test-integration test-coverage clean help install-deps ci-test format lint docs dev
 
 # Default target
 help:
@@ -12,6 +12,10 @@ help:
 	@echo "  clean          - Clean test artifacts and coverage reports"
 	@echo "  install-deps   - Install test dependencies"
 	@echo "  ci-test        - Run tests for CI environment"
+	@echo "  format         - Format code with stylua"
+	@echo "  lint           - Run luacheck linter"
+	@echo "  docs           - Check vim documentation"
+	@echo "  dev            - Full development cycle"
 	@echo "  help           - Show this help"
 
 # Test targets
@@ -90,8 +94,14 @@ lint:
 
 # Documentation
 docs:
-	@echo "📚 Generating documentation..."
-	@ldoc -d docs/api lua/
+	@echo "📚 Checking vim documentation..."
+	@if [ -f "doc/codecompanion-spinner.txt" ]; then \
+		echo "✅ Vim help file exists: doc/codecompanion-spinner.txt"; \
+		head -5 doc/codecompanion-spinner.txt; \
+	else \
+		echo "❌ Vim help file not found"; \
+		exit 1; \
+	fi
 
 # Full development cycle
 dev: clean install-deps format lint test-coverage docs
