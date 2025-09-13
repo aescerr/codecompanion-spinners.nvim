@@ -9,6 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.neovim_version == 'nightly' }}
     strategy:
       matrix:
         neovim_version: ["v0.9.5", "nightly"]
@@ -25,7 +26,7 @@ jobs:
       - name: Set up Lua
         uses: leafo/gh-actions-lua@v10
         with:
-          luaVersion: "luajit-2.1.0-beta3"
+          luaVersion: "5.1"
 
       - name: Set up LuaRocks
         uses: leafo/gh-actions-luarocks@v4
