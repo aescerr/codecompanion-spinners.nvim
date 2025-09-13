@@ -4,7 +4,6 @@ local M = {}
 local config = require("codecompanion._extensions.spinner.config")
 local tracker = require("codecompanion._extensions.spinner.tracker")
 
-
 local ns_id
 
 local spinner_state = {

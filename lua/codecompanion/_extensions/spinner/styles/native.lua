@@ -26,8 +26,6 @@ local animations = {
   interval = 80,
 }
 
-
-
 local function get_title_text(content, is_spinning)
   local current_config = require("codecompanion._extensions.spinner.config")
   local default_icon = current_config.get().default_icon
