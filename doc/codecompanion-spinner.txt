@@ -42,14 +42,18 @@ Example with lazy.nvim: >
         "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope.nvim",
         "lalitmee/codecompanion-spinners.nvim",
-        -- Optional dependencies:
+        -- Optional dependencies for certain spinner styles:
         -- "j-hui/fidget.nvim",
         -- "folke/snacks.nvim",
         -- "nvim-lualine/lualine.nvim",
+        -- "rebelot/heirline.nvim",
       },
        opts = {
          extensions = {
            spinner = {
+             -- Enable the extension
+             enabled = true,
+             -- Pass options to the extension
              opts = {
                style = "cursor-relative",
              },
@@ -63,41 +67,68 @@ Example with lazy.nvim: >
 CONFIGURATION                                           *codecompanion-spinners-config*
 
 You can configure the extension by passing a table to the `opts` key under
-`extensions.spinners`.
+`extensions.spinner`.
 
 Default Configuration: >
 
     {
-      style = "cursor_relative",
+      style = "cursor-relative",
+      default_icon = "",
 
       content = {
         -- General states
-        thinking = { icon = "⚛", message = "Thinking..." },
-        receiving = { icon = "", message = "Receiving..." },
-        done = { icon = "", message = "Done!" },
-        stopped = { icon = "", message = "Stopped" },
-        cleared = { icon = "", message = "Chat cleared" },
+        thinking = { icon = "", message = "Thinking...", spacing = "  " },
+        receiving = { icon = "", message = "Receiving...", spacing = "  " },
+        done = { icon = "", message = "Done!", spacing = "  " },
+        stopped = { icon = "", message = "Stopped", spacing = "  " },
+        cleared = { icon = "", message = "Chat cleared", spacing = "  " },
 
         -- Tool-related states
-        tools_started = { icon = "", message = "Running tools..." },
-        tools_finished = { icon = "⤷", message = "Processing tool output..." },
+        tools_started = { icon = "", message = "Running tools...", spacing = "  " },
+        tools_finished = { icon = "⤷", message = "Processing tool output...", spacing = "  " },
 
         -- Diff-related states
-        diff_attached = { icon = "", message = "Review changes" },
-        diff_accepted = { icon = "", message = "Change accepted" },
-        diff_rejected = { icon = "", message = "Change rejected" },
+        diff_attached = { icon = "", message = "Review changes", spacing = "  " },
+        diff_accepted = { icon = "", message = "Change accepted", spacing = "  " },
+        diff_rejected = { icon = "", message = "Change rejected", spacing = "  " },
 
         -- Chat-related states
-        chat_ready = { icon = "", message = "Chat ready" },
-        chat_opened = { icon = "", message = "Chat opened" },
-        chat_hidden = { icon = "", message = "Chat hidden" },
-        chat_closed = { icon = "", message = "Chat closed" },
+        chat_ready = { icon = "", message = "Chat ready", spacing = "  " },
+        chat_opened = { icon = "", message = "Chat opened", spacing = "  " },
+        chat_hidden = { icon = "", message = "Chat hidden", spacing = "  " },
+        chat_closed = { icon = "", message = "Chat closed", spacing = "  " },
       },
 
-      cursor_relative = {
-        hl_group = "Title",
-        hl_dim_group = "NonText",
+      ["cursor-relative"] = {
+        text = "",
+        hl_positions = {
+          { 0, 3 },
+          { 3, 6 },
+          { 6, 9 },
+        },
+        interval = 100,
+        hl_group = "Cursor",
+        hl_dim_group = "Comment",
+      },
+
+      native = {
         done_timer = 500,
+        window = {
+          relative = "editor",
+          width = 30,
+          height = 1,
+          row = nil,
+          col = nil,
+          style = "minimal",
+          border = "rounded",
+          title = "CodeCompanion",
+          title_pos = "center",
+          focusable = false,
+          noautocmd = true,
+        },
+        win_options = {
+          -- winblend = 10,
+        },
       },
     }
 <
@@ -118,8 +149,8 @@ cursor-relative                                           *codecompanion-spinner
             { 6, 9 }, -- Third circle
           },
           interval = 100,            -- Animation interval in milliseconds
-          hl_group = "Title",         -- Active highlight group
-          hl_dim_group = "NonText",   -- Dimmed background highlight group
+          hl_group = "Cursor",       -- Active highlight group
+          hl_dim_group = "Comment",  -- Dimmed background highlight group
         }
 <
 
@@ -133,7 +164,8 @@ snacks                                                    *codecompanion-spinner
     Requires: folke/snacks.nvim (optional)
 
 lualine                                                  *codecompanion-spinners-lualine*
-    Provides a component for lualine.nvim statusline.
+    Provides a component for lualine.nvim statusline. Only displays when the
+    CodeCompanion chat is open and there is AI activity.
     Requires: nvim-lualine/lualine.nvim
 
     Usage in lualine config: >
@@ -146,20 +178,21 @@ lualine                                                  *codecompanion-spinners
         })
 <
 
-    Alternative manual configuration: >
-        require('lualine').setup({
-          sections = {
-            lualine_c = {
-              {
-                function()
-                  return require('codecompanion._extensions.spinner.styles.lualine').get_status()
-                end,
-                cond = function()
-                  return require('codecompanion._extensions.spinner.styles.lualine').get_status() ~= ""
-                end,
-              },
-            },
-          },
+heirline                                                  *codecompanion-spinners-heirline*
+    Provides a component for heirline.nvim statusline. Only displays when there
+    is AI activity.
+    Requires: rebelot/heirline.nvim
+
+    Usage in heirline config: >
+        local heirline = require('heirline')
+        local CodeCompanionSpinner = require('codecompanion._extensions.spinner.styles.heirline')
+
+        heirline.setup({
+          statusline = {
+            -- Your other components...
+            CodeCompanionSpinner.get_heirline_component(),
+            -- More components...
+          }
         })
 <
 
