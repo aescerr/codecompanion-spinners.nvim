@@ -668,3 +668,44 @@ print("State name:", tracker.state_map[tracker.get_current_state()])
 ## Support
 
 For issues and feature requests, please use the GitHub repository's issue tracker.
+
+## CI/CD Workflows
+
+This project uses GitHub Actions to automate code quality checks, testing, and documentation.
+
+### Workflows
+
+1.  **`lint.yml` (Lint & Format Check)**
+    -   **Trigger:** Push or Pull Request to `master`.
+    -   **Jobs:**
+        -   Checks code formatting using `stylua --check`.
+        -   Lints Lua code using `luacheck`.
+    -   **Purpose:** Ensures all code adheres to formatting and quality standards before merging.
+
+2.  **`test.yml` (Run Tests)**
+    -   **Trigger:** Push or Pull Request to `master`.
+    -   **Jobs:**
+        -   Runs the Busted test suite using `make ci-test`.
+        -   Tests against multiple Neovim versions (`v0.9.5` and `nightly`) to ensure compatibility.
+    -   **Purpose:** Automatically verifies that all tests are passing.
+
+3.  **`docs.yml` (Generate Documentation)**
+    -   **Trigger:** Push to `master`.
+    -   **Jobs:**
+        -   Generates API documentation using `ldoc`.
+        -   Automatically commits the updated documentation to the `docs/api` directory.
+    -   **Purpose:** Keeps the API documentation in sync with the source code.
+
+4.  **`release-drafter.yml` (Release Drafter)**
+    -   **Trigger:** Push to `master`.
+    -   **Jobs:**
+        -   Analyzes conventional commit messages since the last release.
+        -   Automatically creates a new draft release with a categorized changelog and a bumped version number.
+    -   **Purpose:** Automates the release note generation process.
+
+5.  **`stale.yml` (Stale Issue Management)**
+    -   **Trigger:** Runs on a daily schedule (`cron`).
+    -   **Jobs:**
+        -   Identifies and labels issues and pull requests that have been inactive for a set period.
+        -   Closes them after an additional grace period if there is no further activity.
+    -   **Purpose:** Helps maintain a clean and relevant project backlog.
