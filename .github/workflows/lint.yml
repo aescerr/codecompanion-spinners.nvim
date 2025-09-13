@@ -31,4 +31,6 @@ jobs:
         run: luarocks install luacheck
 
       - name: Run luacheck
+        env:
+          LUA_PATH: "./lua/?.lua;./tests/?.lua"
         run: luacheck lua/ tests/ --globals vim --ignore 611 612 613 614
